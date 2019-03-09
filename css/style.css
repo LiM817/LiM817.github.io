@@ -12,7 +12,7 @@ button,
 input,
 select,
 textarea {
-  font-family: "Ubuntu", "Roboto", "Open Sans", "Microsoft YaHei", sans-serif;
+  font-family: Lato, -apple-system, 'PingFang SC', 'Source Han Sans SC', 'Noto Sans CJK SC', 'Microsoft Yahei', 'Lantinghei SC', 'Hiragino Sans GB', 'Microsoft Sans Serif', 'WenQuanYi Micro Hei', sans-serif;
 }
 @media screen and (min-width: 1280px) {
   .is-1-column .container,
@@ -350,7 +350,7 @@ img.thumbnail {
 .content code,
 .content pre {
   font-size: 0.85em;
-  font-family: "Source Code Pro", monospace, "Microsoft YaHei";
+  font-family: "Fira Mono", "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
 }
 .content code {
   color: #ff3860;
@@ -365,8 +365,9 @@ img.thumbnail {
  * --------------------------------- */
 figure.highlight {
   padding: 0;
-  width: 100%;
-  margin: 1em 0 1em !important;
+  min-width: calc(100% + 42px);
+  margin: 0 -21px !important;
+  margin-bottom: 1em !important;
 }
 figure.highlight pre,
 figure.highlight table tr:hover {
@@ -395,7 +396,7 @@ figure.highlight figcaption {
 }
 figure.highlight figcaption span {
   font-weight: 500;
-  font-family: "Source Code Pro", monospace, "Microsoft YaHei";
+  font-family: "Fira Mono", "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
 }
 figure.highlight figcaption a {
   float: right;
@@ -431,12 +432,20 @@ figure.highlight .section {
 .gist .file {
   all: initial;
 }
-/* Override Again */
+/* 修改内容样式 */
+* {
+  tab-size: 4 !important;
+}
+code {
+  color: #3273dc !important;
+  margin: 0 5px;
+}
+/* 修改页面布局 */
 .my-content {
-  width: 75% !important;
+  width: 77.5% !important;
 }
 .my-sidebar {
-  width: 25% !important;
+  width: 22.5% !important;
 }
 @media screen and (max-width: 1000px) {
   .my-content {
@@ -445,4 +454,137 @@ figure.highlight .section {
   .my-sidebar {
     display: none;
   }
+}
+.my-post-tags {
+  color: #fff !important;
+}
+.my-post-tags .my-post-tag {
+  font-size: 13px;
+  margin-right: 10px;
+  color: #666 !important;
+}
+.my-post-tags .my-post-tag:hover {
+  color: #3273dc !important;
+}
+.my-post-tags .my-post-tag:before {
+  content: '#';
+}
+.navbar .navbar-title {
+  font-size: 18px;
+}
+.navbar .navbar-item {
+  font-size: 15px;
+  padding: 0.75em 1em;
+}
+/* 修改内容样式 */
+.card-content .title {
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.card-content .article-meta {
+  margin-bottom: 30px !important;
+  text-transform: capitalize !important;
+}
+.card-content .article-meta i {
+  margin-right: 5px;
+}
+.card-content .my-title h1 {
+  font-size: 22px !important;
+}
+.card-content .my-post-title {
+  text-align: center;
+}
+.card-content .my-post-title h1 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 26px !important;
+}
+.card-content .my-post-title h1 {
+  transition: 0.5s 0.1s;
+}
+.card-content .my-post-title h1:hover {
+  letter-spacing: 2px;
+}
+/* 修改阴影和圆角 */
+.card {
+  border-radius: 2px;
+}
+.ins-selectable {
+  -webkit-animation: 1s;
+  animation: 1s;
+}
+/* 设置鼠标样式 */
+* {
+  cursor: url("/cur/default.cur"), default !important;
+}
+a:hover,
+button {
+  cursor: url("/cur/pointer.cur"), pointer !important;
+}
+/* Valine 评论样式 */
+.v a {
+  color: #000 !important;
+}
+.v a:hover {
+  color: #3273dc !important;
+}
+.v a:before {
+  background: #3273dc !important;
+}
+.v .info {
+  display: none !important;
+}
+.v .vwrap {
+  border: none !important;
+}
+.v .vwrap .vcontrol .col svg {
+  display: none !important;
+}
+.v .vwrap .vcontrol .col.col-80 {
+  width: 100% !important;
+}
+.v .vwrap .vcontrol .col.col-80 button {
+  height: 30px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  border-radius: 20040725px !important;
+  border-color: #3273dc !important;
+  color: #3273dc !important;
+  background-color: #fff !important;
+  width: 100% !important;
+}
+.v .vwrap .vcontrol .col.col-80 button:hover {
+  color: #fff !important;
+  background-color: #3273dc !important;
+}
+.v .vwrap .vheader .vinput:hover {
+  border-bottom: 1px dashed #3273dc !important;
+}
+.v .vlist .vcard .vquote {
+  border: none !important;
+}
+.v .vlist .vcard .vh {
+  border: none !important;
+}
+.v .vlist .vcard .vh .vmeta .vat {
+  color: #000 !important;
+}
+.v .vlist .vcard .vh .vmeta .vat:hover {
+  color: #3273dc !important;
+}
+.v .vlist .vcard .vhead .vsys {
+  display: none !important;
+}
+.v .vlist .vcard .vhead .vnick {
+  color: #3273dc !important;
+}
+.v .vlist .vcard .vhead .vnick:hover {
+  color: #3273dc !important;
+}
+.v .vlist .vcard .vhead .vnick:before {
+  background: #3273dc !important;
+}
+.emoji {
+  max-width: 20px !important;
 }
