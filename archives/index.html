@@ -86,7 +86,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="LiM-817&#39;s Blog" height="28">
+                <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
             
             </a>
         </div>
@@ -123,7 +123,6 @@
         <div class="container">
             <div class="columns">
                 <div class="column my-content is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
-        
 <div class="card widget">
     <div class="card-content">
         <h3 class="tag is-link">
@@ -180,6 +179,7 @@
     </div>
 </div>
 
+        
     
 </div>
                 
@@ -196,7 +196,7 @@
             <div class="level-item has-text-centered">
                 <div>
                     
-                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="LiM_817">
+                        <img class="image is-128x128 has-mb-6" src="https://www.gravatar.com/avatar/8b829f82d7b98e5ecca1cc226f1dbf97?s=128" alt="LiM_817">
                     
                     
                     <p class="is-size-4 is-block">
@@ -327,7 +327,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="LiM-817&#39;s Blog" height="28">
+                    <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
                 
                 </a>
                 <p class="is-size-7">
@@ -355,6 +355,7 @@
         </div>
     </div>
 </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
 <script>moment.locale("zh-CN");</script>
@@ -482,7 +483,23 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 <script src="/js/insight.js" defer></script>
 <link rel="stylesheet" href="/css/search.css">
-<link rel="stylesheet" href="/css/insight.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<link rel="stylesheet" href="/css/insight.css">
     
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
 </body>
 </html>
