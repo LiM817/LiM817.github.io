@@ -1,0 +1,537 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+<title>FFT详解 - LiM-817&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="用于计算一类朴素卷积问题。">
+<meta name="keywords" content="math">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FFT详解">
+<meta property="og:url" content="http://yoursite.com/2019/03/08/FFT详解/index.html">
+<meta property="og:site_name" content="LiM-817&#39;s Blog">
+<meta property="og:description" content="用于计算一类朴素卷积问题。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/01/31/5c5256f1541f0.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/01/31/5c5265604285c.jpg">
+<meta property="og:image" content="https://cdn.luogu.org/upload/pic/29484.png">
+<meta property="og:updated_time" content="2019-03-08T23:42:12.558Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FFT详解">
+<meta name="twitter:description" content="用于计算一类朴素卷积问题。">
+<meta name="twitter:image" content="https://i.loli.net/2019/01/31/5c5256f1541f0.jpg">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+<body class="is-2-column">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="FFT详解" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column my-content is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-08T13:18:07.000Z">2019-03-08</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    23 分钟 读完 (大约 3382 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                FFT详解
+            
+        </h1>
+        <div class="content">
+            <p>用于计算一类朴素卷积问题。</p>
+<a id="more"></a>
+<p>笔者学习的是<a href="https://www.luogu.org/blog/command-block/fft-xue-xi-bi-ji" target="_blank" rel="noopener">这份博客</a><br>内容中可能有很多相同之处，敬请谅解。</p>
+<p>现在要计算两个一元$n$次多项式$F(x)$与$G(x)$的乘积，如何计算？<br><strong>前置知识：多项式的表示方法</strong><br>一. 系数表示法<br>对于一个$n$次多项式$F(x)$，它可以被表示成</p>
+<script type="math/tex; mode=display">F(x) = a_nx^n+a_{n-1}x^{n-1}+...+a_1x^1+a_0x^0.</script><p>更加形式化的来说，它可以表示成</p>
+<script type="math/tex; mode=display">F(x) = \sum_{i=0}^{n} a_ix^i.</script><p>举个例子，2次多项式，其中$a_0=1,a_1=2,a_2=1$<br>那么$F(x)=1x^2+2x+1.$这样即可通俗的表示出一个$n$次多项式。<br>二. 点值表示法<br><del>众所周知，两个点确定一个一次函数，三个点确定一个二次函数。</del><br>所以，$n+1$个点确定一个一元$n$次多项式。<br>所以我们可以通过$n+1$个点来表示它。<br>那么相乘之后的点值如何计算？<br>比如说两个2次多项式$F(x)=x^2+2x+1$（红色）与$G(x)=3x^2-4x-2$（蓝色），它们的图像如图所示：<br><img src="https://i.loli.net/2019/01/31/5c5256f1541f0.jpg" alt><br>那么观察图中$x=1$时的情况。此时$F(1)=4,G(1)=-3.$<br>所以，显然，$F(1)\times G(1)=-12$.也就是说在$Z=F<em>G$这一多项式内，带入$1$，得到的结果是$-12$.<br>等等，好像有哪里不对。如果说$Z=F</em>G$的话，那么Z的次数应该是$2n$.<br>那$Z$需要$2n+1$个点来确定。但是原来只需要$n+1$个点，咋办？<br>很简单，在原来的多项式里每个都多加$n$个点即可。反正多项式已知。<br>这样就可以用点值来进行操作。也就是说先转成点值，再一乘，再转回来，就是计算流程。<br>但是好像还是很慢。那么如何优化呢?<br><strong>复数部分</strong><br>复数，即形如$a+bi$的数，其中$i^2=-1.$ $a$称为<strong>实部</strong>，$bi$称为<strong>虚部</strong>。<br>或者说：在一个数轴上（只有x轴），我们可以表示出任何实数。<br>那么，多加一维（y轴），也就是类似于平面直角坐标系一样，我们就可以表示出任意一个复数。<br>所以我们把这个坐标系叫做<strong>复平面</strong>，其中x轴称为<strong>实轴</strong>，y轴称为<strong>虚轴</strong>。<br><strong>复数运算</strong><br>复数相加：实部相加，虚部相加，例如</p>
+<script type="math/tex; mode=display">(a+bi)+(c+di)=(a+c)+(b+d)i.</script><p>复数相减：同理。</p>
+<script type="math/tex; mode=display">(a+bi)-(c+di)=(a-c)+(b-d)i.</script><p>复数相乘：像<strong>一次多项式一样相乘。</strong> 注意$i^2=-1$.</p>
+<script type="math/tex; mode=display">(a+bi)(c+di)=ac+(ad+bc)i-bd=(ac-bd)+(ad+bc)i.</script><p>复数相除：<br>相信大家都学过共轭根式。同样的，复数也有共轭。<br>即：$a+bi$的共轭为$a-bi$。<br>这两个复数<del>卡</del>乘在一起一定是个实数。即</p>
+<script type="math/tex; mode=display">(a+bi)(a-bi)=a^2-(bi)^2=a^2+b^2.</script><p>所以再除的时候，将分子分母同乘分母的共轭，就可以将分母有理化。<br>即</p>
+<script type="math/tex; mode=display">\frac{a+bi}{c+di}=\frac{(a+bi)(c-di)}{c^2+d^2}=\frac{ac+bd}{c^2+d^2}+\frac{bc-ad}{c^2+d^2}i.</script><p>复数逆元：</p>
+<script type="math/tex; mode=display">\frac{1}{a+bi}=\frac{a}{a^2+b^2}-\frac{b}{a^2+b^2}i.</script><p>同样的，复数运算在复平面内也有一定规律可循。<br>考虑在复平面内的两个复数：（借张图）<br><img src="https://i.loli.net/2019/01/31/5c5265604285c.jpg" alt></p>
+<p>表示的是复数$(1+4i)$与复数$(3+2i)$相乘所得的结果：$(-5+14i)$。<br>设其中$(5,0)$点为位置$P$，则$\angle{POC}=\angle{BOA}.$<br>还有：$\overline{OB}\times\overline{OC}=\overline{OA}.$<br>第二个证明：勾股定理。先把$i$消掉。<br>$\overline{OB}^2=a^2+b^2.$ $\overline{OC}^2=c^2+d^2.$<br>$\overline{OB}^2\times \overline{OC}^2=(a^2+b^2)(c^2+d^2)=a^2c^2+a^2d^2+b^2c^2+b^2d^2.$<br>$\overline{OA}^2=(ac-bd)^2+(ad+bc)^2=a^2c^2+a^2d^2+b^2c^2+b^2d^2.$得证。<br>我们将复数中，复数向量的长度称为<strong>模长</strong>，向量与x轴正方向的夹角称为<strong>幅角</strong>。<br>根据上面的东西：复数相乘时，<strong>模长相乘，幅角相加</strong>。<br><strong>单位根</strong><br>一个n次的单位根即为方程$x^n=1$的复数解。<br>考虑这样一个图：<br><img src="https://cdn.luogu.org/upload/pic/29484.png" alt><br>其中圆上的所有复数模长都是1，<strong>这个圆称为单位圆</strong>。<br>考虑$|x|$的取值范围：<br>如果$|x|<1$，那么$|x^n|<1$（模长\*模长，越乘越短） 如果$|x|>1$，那么$|x^n|&gt;1$（模长*模长，越乘越长）<br>所以一定有$|x|=1$，即<strong>点一定在这个单位圆上。</strong><br>那么还有一条，就是一个n次的单位根共有n个，并且从(1,0)开始，每次逆时针走$\frac{1}{n}$个圆周。分别称为$\omega_{n}^{0},\omega_{n}^{1},…\omega_{n}^{n-1}.$（逆时针编号！！！）<br>其实还有$k\geq n$和$k&lt;0$的单位根，本质上就模个n就可以了，这里不再多加考虑。<br>有关单位根也有很多性质：</1$，那么$|x^n|<1$（模长\*模长，越乘越短）></p>
+<ol>
+<li>$\omega_{n}^{0}=1$</li>
+<li>$\omega_{n}^{k}=(\omega_{n}^{1})^k$，很好理解，就是每次转$\frac{1}{n}$圆周。</li>
+<li>$\omega_{n}^{j} \times \omega_{n}^{k}=\omega_{n}^{j+k}.$<br>证明：很简单，代入性质2即可。<br>根据3，有：<script type="math/tex; mode=display">\omega_{n}^{j+k}=\omega_{n}^{j} \times \omega_{n}^{k}.</script><script type="math/tex">(\omega_{n}^{k})^{-1}=\frac{1}{\omega_{n}^{k}}=\frac{\omega_{n}^{0}}{\omega_{n}^{k}}=\omega_{n}^{-k}=\omega_{n}^{n-k}.</script> （根据上面模个n的说法）<br><script type="math/tex">\omega_{pn}^{pk}=\omega_{n}^{k}.</script>（将蛋糕分成pn份取pk份=将蛋糕分成n份取k份）<br><script type="math/tex">\omega_{n}^{k+\frac{n}{2}}=-\omega_{n}^{k}.</script>（相当于绕了半圈$\rightarrow$取了个相反数）<br><script type="math/tex">(\omega_{n}^{k})^j=(\omega_{n}^{j})^k.</script>（大小为k，共有j个=大小为j，共有k个）<br>…差不多就这些了</li>
+</ol>
+<hr>
+<p>$FFT$流程：$DFT,IDFT$<br>$DFT$加速版本：分治<br>首先，你需要<del>控制得当</del>将整个n-1次多项式（保证n是2的正整数次幂）按系数奇偶拍成两部分：</p>
+<script type="math/tex; mode=display">F(x)=(a_0+a_2x^2+...+a_{n-2}x^{n-2})+(a_1x^1+a_3x^3+...+a_{n-1}x^{n-1}).</script><p>再设两个n/2项多项式：</p>
+<script type="math/tex; mode=display">FL(x)=a_0+a_2x+...+a_{n-2}x^{\frac{n}{2}-1}</script><script type="math/tex; mode=display">FR(x)=a_1+a_3x+...+a_{n-1}x^{\frac{n}{2}-1}</script><p>那么有$F(x)=FL(x^2)+x*FR(x^2).$（不懂可以自己设一下代入进去）<br>下面，我们来代入单位根，看看会有什么神奇的事情发生。<br>比如说我们代一个$\omega_{n}^{k}(k&lt;\frac{n}{2}):$</p>
+<script type="math/tex; mode=display">F(\omega_{n}^{k})=FL((\omega_{n}^{k})^2)+\omega_{n}^{k}\times FR((\omega_{n}^{k})^2)</script><p>其中，$(\omega_{n}^{k})^2=\omega_{n}^{2k}=\omega_{\frac{n}{2}}^{k}.$然后代入：</p>
+<script type="math/tex; mode=display">F(\omega_{n}^{k})=FL(\omega_{\frac{n}{2}}^{k})+\omega_{n}^{k}\times FR(\omega_{\frac{n}{2}}^{k}).</script><p>然后呢？有啥用？<br>不难发现，如果我们知道了$FL(x),FR(x)$在x取$\omega_{\frac{n}{2}}^{0},\omega_{\frac{n}{2}}^{1}…\omega_{\frac{n}{2}}^{\frac{n}{2}-1}$下的所有值，我们就可以知道$F(x)$在x取$\omega_{n}^{0},\omega_{n}^{1}…\omega_{n}^{\frac{n}{2}-1}$下的所有值（代回原式）。<br>但是这还不是全部啊，剩下那个部分怎么办？<br>没关系，考虑$k&lt;\frac{n}{2}$，代入$\omega_{n}^{k+\frac{n}{2}}$时的情况。</p>
+<script type="math/tex; mode=display">F(\omega_{n}^{k+\frac{n}{2}})=FL((\omega_{n}^{k+\frac{n}{2}})^2)+\omega_{n}^{k+\frac{n}{2}}\times FR((\omega_{n}^{k+\frac{n}{2}})^2).</script><p>其中，$(\omega_{n}^{k+\frac{n}{2}})^2=\omega_{n}^{2k+n}.$</p>
+<p>故</p>
+<script type="math/tex; mode=display">F(\omega_{n}^{k+\frac{n}{2}})=FL(\omega_{n}^{2k+n})+\omega_{n}^{k+\frac{n}{2}}\times FR(\omega_{n}^{2k+n}).</script><script type="math/tex; mode=display">F(\omega_{n}^{k+\frac{n}{2}})=FL(\omega_{n}^{2k})+\omega_{n}^{k+\frac{n}{2}}\times FR(\omega_{n}^{2k}).</script><p>（模性质）</p>
+<script type="math/tex; mode=display">F(\omega_{n}^{k+\frac{n}{2}})=FL(\omega_{\frac{n}{2}}^{k})+\omega_{n}^{k+\frac{n}{2}}\times FR(\omega_{\frac{n}{2}}^{k}).</script><p>（性质3 延展）</p>
+<script type="math/tex; mode=display">F(\omega_{n}^{k+\frac{n}{2}})=FL(\omega_{\frac{n}{2}}^{k})-\omega_{n}^{k}\times FR(\omega_{\frac{n}{2}}^{k}).</script><p>（取反性质）</p>
+<p>然后观察这个式子和前面式子的区别，发现就是把+号改成了-号。也就是说我们可以通过那组数据来算出当$k&gt;\frac{n}{2}$时的情况。这就是加速DFT的原理。<br><strong>IDFT</strong><br>至此，我们已经可以将其转化为点值，那么如何还原回来呢？使用IDFT插值。<br>考虑一个向量$c_0,c_1…c_{n-1}$，满足<script type="math/tex">c_k=\sum _{i=0}^{n-1}(\omega_{n}^{-k})^i\times y_i.</script><br>其中$y_i$表示乘出来的点的y坐标。<br>那么，这个式子也就代表一个以$y$为系数的方程在取$x=\omega_{n}^{-k}$时的复数解。<br>我们尝试着来化简一波。</p>
+<script type="math/tex; mode=display">c_k=\sum _{i=0}^{n-1}(\omega_{n}^{-k})^i\times y_i</script><script type="math/tex; mode=display">c_k=\sum _{i=0}^{n-1}(\omega_{n}^{-k})^i(\sum_{j=0}^{n-1}a_j(\omega_{n}^{i})^j)</script><script type="math/tex; mode=display">c_k=\sum _{i=0}^{n-1}(\omega_{n}^{-k})^i(\sum_{j=0}^{n-1}a_j(\omega_{n}^{j})^i)</script><script type="math/tex; mode=display">c_k=\sum _{i=0}^{n-1}(\sum_{j=0}^{n-1}a_j(\omega_{n}^{j})^i(\omega_{n}^{-k})^i)</script><script type="math/tex; mode=display">c_k=\sum _{i=0}^{n-1}(\sum_{j=0}^{n-1}a_j(\omega_{n}^{j-k})^i)</script><script type="math/tex; mode=display">c_k=\sum _{j=0}^{n-1}a_j\color{red}{(\sum_{i=0}^{n-1}(\omega_{n}^{j-k})^i)}</script><p>发现后面标红的东西就是一个等比数列，那么我们可以直接计算。即</p>
+<script type="math/tex; mode=display">\sum_{i=0}^{n-1}X^i=\frac{X^n-1}{X-1}.</script><p>我们设这个东西为公式$Z.$<br>于是就有</p>
+<script type="math/tex; mode=display">c_k=\sum _{j=0}^{n-1}a_jZ(\omega_{n}^{j-k}).</script><p>观察函数$Z$的相关性质。<br>赫然发现：我们带进去的是单位根！单位根啥性质来着？$X^n=1!$<br>也就是说当$X≠1$，也就是$k≠0$时，原式$=0.$ （分子为0）<br>那么$X=1$时，也就是$k=0$时呢？这时候这个求和公式就不管用了，带回原式算，发现由于$1^i=1$（i是自然数），那么$Z(x)=n.$<br>所以说，什么情况下带进去的值$k=0$呢？显然是$j-k$的时候！此时单项$=na_k$.<br>否则的话会乘一个0，答案固然也是0.<br>所以有：<script type="math/tex">c_k=na_k</script>（飞跃性的一步！！！）<br>回顾整个式子，发现我们算$c$的时候连$a$的影子都没有，现在我们竟然推出了一个和$a$有关的关系式！太神奇了！这就是$IDFT$的原理。<br>至此，$\text{FFT}$的重要部分已经全部介绍完毕，下面进入代码实现与细节处理部分。</p>
+<p><strong>代码实现</strong><br>朴素DFT:<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; omega(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n , <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> k) &#123; <span class="hljs-comment">// 单位根</span></span><br><span class="line">	<span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; ret = &#123;<span class="hljs-built_in">cos</span>(<span class="hljs-number">2</span> * Pi / n * k) , <span class="hljs-built_in">sin</span>(<span class="hljs-number">2</span> * Pi / n * k)&#125;;</span><br><span class="line">	<span class="hljs-keyword">if</span>(!inv) <span class="hljs-keyword">return</span> ret;</span><br><span class="line">	<span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> conj(ret);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFT</span><span class="hljs-params">(<span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; a , <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">if</span>(n == <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> ;</span><br><span class="line">	<span class="hljs-keyword">static</span> <span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; buf[MAXN];</span><br><span class="line">	<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> m = n / <span class="hljs-number">2</span>;</span><br><span class="line">	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">		buf[i] = a[(i &lt;&lt; <span class="hljs-number">1</span>)];</span><br><span class="line">		buf[i + m] = a[(i &lt;&lt; <span class="hljs-number">1</span> | <span class="hljs-number">1</span>)];</span><br><span class="line">	&#125;</span><br><span class="line">	copy(buf , buf + n , a);</span><br><span class="line">	<span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; *a1 = a , *a2 = a + m;</span><br><span class="line">	DFT(a1 , m); DFT(a2 , m);</span><br><span class="line">	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">		<span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; w = omega(n , i);</span><br><span class="line">		buf[i] = a1[i] + w * a2[i];</span><br><span class="line">		buf[i + m] = a1[i] - w * a2[i];</span><br><span class="line">	&#125;</span><br><span class="line">	copy(buf , buf + n , a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>发现这样的效率显然不行，那么考虑迭代形式。<br>首先观察分治到最后的二进制位表示：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">000 001 010 011 100 101 110 111</span><br><span class="line"> 0   1   2   3   4   5   6   7</span><br><span class="line"> 0   2   4   6 - 1   3   5   7</span><br><span class="line"> 0   4 - 2   6 - 1   5 - 3   7</span><br><span class="line"> 0 - 4 - 2 - 6 - 1 - 5 - 3 - 7</span><br><span class="line">000 100 010 110 001 101 011 111</span><br></pre></td></tr></table></figure></p>
+<p>然后…我们惊奇的发现最后的二进制位就是之前的二进制位倒过来！TQL!<br>接着考虑空间优化。<br>不难发现，由于DFT的两个式子十分相近，所以我们可以只算一次，同时通过技巧性的操作直接覆盖原数组，而不再新开一个。这个操作被称为<strong>蝴蝶操作</strong>。<br>蝴蝶操作的代码：<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> l = <span class="hljs-number">2</span>; l &lt;= n; l &lt;&lt;= <span class="hljs-number">1</span>) &#123;</span><br><span class="line">			<span class="hljs-keyword">int</span> m = l / <span class="hljs-number">2</span>;</span><br><span class="line">			<span class="hljs-keyword">for</span>(<span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; *p = a; p != a + n; p += l) &#123;</span><br><span class="line">				<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">					<span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; t = omega[n / l * i] * p[m + i];</span><br><span class="line">					p[m + i] = p[i] - t;</span><br><span class="line">					p[i] += t;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后穿起来，与以前的FFT模板结合即可。<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> dbg(x) cerr &lt;&lt; #x <span class="hljs-meta-string">" = "</span> &lt;&lt; x &lt;&lt; <span class="hljs-meta-string">"\n"</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span></span><br><span class="line"><span class="hljs-comment">/* do not give up ! */</span></span><br><span class="line"><span class="hljs-comment">/* try your best! */</span></span><br><span class="line"><span class="hljs-comment">/* Read the meaning clearly! */</span></span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> LL;</span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">double</span> ld;</span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ULL;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">template</span> &lt; <span class="hljs-keyword">typename</span> T &gt; <span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> <span class="hljs-title">inp</span><span class="hljs-params">(T&amp; t)</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">char</span> c = getchar(); T x = <span class="hljs-number">1</span>; t = <span class="hljs-number">0</span>; <span class="hljs-keyword">while</span>(!<span class="hljs-built_in">isdigit</span>(c)) &#123;<span class="hljs-keyword">if</span>(c == <span class="hljs-string">'-'</span>) x = <span class="hljs-number">-1</span>; c = getchar();&#125;</span><br><span class="line">	<span class="hljs-keyword">while</span>(<span class="hljs-built_in">isdigit</span>(c)) t = t * <span class="hljs-number">10</span> + c - <span class="hljs-string">'0'</span> , c = getchar();t *= x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt; <span class="hljs-keyword">typename</span> T , <span class="hljs-keyword">typename</span>... Args &gt; <span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> <span class="hljs-title">inp</span><span class="hljs-params">(T&amp; t , Args&amp;... args)</span> </span>&#123;inp(t); inp(args...);&#125;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt; <span class="hljs-keyword">typename</span> T &gt; <span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> <span class="hljs-title">outp</span><span class="hljs-params">(T t)</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">if</span>(t &lt; <span class="hljs-number">0</span>) <span class="hljs-built_in">putchar</span>(<span class="hljs-string">'-'</span>) , t = -t; T y = <span class="hljs-number">10</span> , len = <span class="hljs-number">1</span>;</span><br><span class="line">	<span class="hljs-keyword">while</span>(y &lt;= t) y *= <span class="hljs-number">10</span> , len++; <span class="hljs-keyword">while</span>(len--) y /= <span class="hljs-number">10</span> , <span class="hljs-built_in">putchar</span>(t / y + <span class="hljs-number">48</span>) , t %= y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt; <span class="hljs-keyword">typename</span> T &gt; <span class="hljs-function"><span class="hljs-keyword">inline</span> T <span class="hljs-title">mul</span><span class="hljs-params">(T x , T y , T MOD)</span> </span>&#123;x=x%MOD,y=y%MOD;<span class="hljs-keyword">return</span> ((x*y-(T)(((ld)x*y+<span class="hljs-number">0.5</span>)/MOD)*MOD)%MOD+MOD)%MOD;&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">2097152</span> + <span class="hljs-number">10</span>;</span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> Pi = <span class="hljs-built_in">acos</span>(<span class="hljs-number">-1.0</span>);</span><br><span class="line"><span class="hljs-keyword">int</span> ans[MAXN];</span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">FastFourierTransform</span> &#123;</span></span><br><span class="line">	<span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; omega[MAXN] , omegaInverse[MAXN];</span><br><span class="line"></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">		<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">			omega[i] = <span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; (<span class="hljs-built_in">cos</span>(<span class="hljs-number">2</span> * Pi / n * i) , <span class="hljs-built_in">sin</span>(<span class="hljs-number">2</span> * Pi / n * i));</span><br><span class="line">			omegaInverse[i] = conj(omega[i]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Transform</span><span class="hljs-params">(<span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; *a , <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n , <span class="hljs-keyword">const</span> <span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; *omega)</span> </span>&#123;</span><br><span class="line">		<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>;</span><br><span class="line">		<span class="hljs-keyword">while</span>((<span class="hljs-number">1</span> &lt;&lt; k) &lt; n) ++k;</span><br><span class="line">		<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">			<span class="hljs-keyword">int</span> t = <span class="hljs-number">0</span>;</span><br><span class="line">			<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; k; j++) <span class="hljs-keyword">if</span>(i &amp; (<span class="hljs-number">1</span> &lt;&lt; j)) t |= (<span class="hljs-number">1</span> &lt;&lt; (k - j - <span class="hljs-number">1</span>));</span><br><span class="line">			<span class="hljs-keyword">if</span>(i &lt; t) swap(a[i] , a[t]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> l = <span class="hljs-number">2</span>; l &lt;= n; l &lt;&lt;= <span class="hljs-number">1</span>) &#123;</span><br><span class="line">			<span class="hljs-keyword">int</span> m = l / <span class="hljs-number">2</span>;</span><br><span class="line">			<span class="hljs-keyword">for</span>(<span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; *p = a; p != a + n; p += l) &#123;</span><br><span class="line">				<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">					<span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; t = omega[n / l * i] * p[m + i];</span><br><span class="line">					p[m + i] = p[i] - t;</span><br><span class="line">					p[i] += t;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFT</span><span class="hljs-params">(<span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; *a , <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">		Transform(a , n , omega);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">IDFT</span><span class="hljs-params">(<span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; *a , <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">		Transform(a , n , omegaInverse);</span><br><span class="line">		<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) a[i] /= n;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;FFT;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">int</span> nn , mm , x; inp(nn , mm);</span><br><span class="line">	nn++ , mm++;</span><br><span class="line">	<span class="hljs-keyword">int</span> n = <span class="hljs-number">1</span>; <span class="hljs-keyword">while</span>(n &lt; nn + mm) n &lt;&lt;= <span class="hljs-number">1</span>;</span><br><span class="line">	<span class="hljs-keyword">complex</span> &lt; <span class="hljs-keyword">double</span> &gt; a[MAXN] , b[MAXN];</span><br><span class="line">	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; nn; i++) &#123;</span><br><span class="line">		inp(x); a[i].real(x);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; mm; i++) &#123;</span><br><span class="line">		inp(x); b[i].real(x);</span><br><span class="line">	&#125;</span><br><span class="line">	FFT.init(n);</span><br><span class="line">	FFT.DFT(a , n);</span><br><span class="line">	FFT.DFT(b , n);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) a[i] *= b[i];</span><br><span class="line"></span><br><span class="line">	FFT.IDFT(a , n);</span><br><span class="line">	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; nn + mm - <span class="hljs-number">1</span>; i++) &#123;</span><br><span class="line">		ans[i] = <span class="hljs-keyword">static_cast</span> &lt; <span class="hljs-keyword">int</span> &gt; (<span class="hljs-built_in">floor</span>(a[i].real() + <span class="hljs-number">0.5</span>));</span><br><span class="line">		<span class="hljs-built_in">cout</span> &lt;&lt; ans[i] &lt;&lt; <span class="hljs-string">" "</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>至此，该代码已经可以效率很高地通过<a href="https://www.luogu.org/problemnew/show/P3803" target="_blank" rel="noopener">P3803</a>一题！完结撒花！<br>FFT例题将会另外放在一个帖子~</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/math/">math</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/07/你好/">
+                <span class="level-item">你好.</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column my-sidebar is-4-tablet is-4-desktop is-4-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="LiM_817">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        LiM_817
+                    </p>
+                    
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Beijing, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        3
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        1
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="http://github.com/ppoffice" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="http://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Facebook" href="http://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="http://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Dribbble" href="http://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+        </div>
+    
+</div>
+
+
+                
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="FFT详解" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 LiM-817&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="http://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+</body>
+</html>
