@@ -3,18 +3,23 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-<title>分类: 题解 - LiM-817&#39;s Blog</title>
+<title>[清华集训2015]Light Bulb 题解 - LiM-817&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="LiM-817&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/categories/题解/index.html">
+    <meta name="description" content="可以观察题目中隐含的单调性来解决本题。">
+<meta name="keywords" content="三分法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[清华集训2015]Light Bulb 题解">
+<meta property="og:url" content="http://yoursite.com/2019/03/10/清华集训2015-Light-Bulb-题解/index.html">
 <meta property="og:site_name" content="LiM-817&#39;s Blog">
+<meta property="og:description" content="可以观察题目中隐含的单调性来解决本题。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-09T23:14:56.964Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LiM-817&#39;s Blog">
+<meta name="twitter:title" content="[清华集训2015]Light Bulb 题解">
+<meta name="twitter:description" content="可以观察题目中隐含的单调性来解决本题。">
 
 
 
@@ -86,7 +91,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
+                <img src="/favicon.ico" alt="[清华集训2015]Light Bulb 题解" height="28">
             
             </a>
         </div>
@@ -125,71 +130,6 @@
         <div class="container">
             <div class="columns">
                 <div class="column my-content is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/categories">分类</a></li>
-            
-            <li class="is-active"><a href="#" aria-current="page">题解</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-09T23:14:18.000Z">2019-03-10</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    5 分钟 读完 (大约 698 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/10/SCOI2010-传送带-题解/">[SCOI2010]传送带 题解</a>
-            
-        </h1>
-        <div class="content">
-            <p>比较神的一道题，以前没有接触过三分套三分…</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/10/SCOI2010-传送带-题解/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
     
     <div class="card-content article ">
         
@@ -214,21 +154,30 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/03/10/清华集训2015-Light-Bulb-题解/">[清华集训2015]Light Bulb 题解</a>
+                [清华集训2015]Light Bulb 题解
             
         </h1>
         <div class="content">
             <p>可以观察题目中隐含的单调性来解决本题。</p>
+<a id="more"></a>
+<p>观察到可以把图中的$L$分成两部分：一部分是投影到地上的，而另一部分是投影到墙上的。</p>
+<p>位置离墙越近，地上的投影就会变短，同时墙上的投影也会变长。</p>
+<p>但是本题的答案并不是一个一次函数，因为一开始墙上的投影一段时间内都为$0$（影子太短），所以并不能直接一次函数求解。</p>
+<p>所以可以直接正常三分，函数直接快速维护一下即可。</p>
+<p>复杂度约等于$\Theta(Tlogd)$ ? （不会证，算了…）</p>
+<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> GCC optimize(<span class="hljs-meta-string">"O2"</span>)</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> PI 3.14159265</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> DO_NOT_USE_SCANF ios::sync_with_stdio(0)</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> PQ priority_queue</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> lowbit(x) ((x) &amp; (-x))</span></span><br><span class="line"><span class="hljs-comment">//#define lmy</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> lmy</span></span><br><span class="line">	<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> DEBUG printf(<span class="hljs-meta-string">"Passing [%s] in LINE %d...\n"</span> , __FUNCTION__ , __LINE__)</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span></span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;</span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ull;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> <span class="hljs-title">read</span><span class="hljs-params">(<span class="hljs-keyword">int</span> &amp;x)</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">int</span> f = <span class="hljs-number">1</span>;x = <span class="hljs-number">0</span>;<span class="hljs-keyword">char</span> ch = getchar();</span><br><span class="line">	<span class="hljs-keyword">while</span>(ch &lt; <span class="hljs-string">'0'</span> || ch &gt; <span class="hljs-string">'9'</span>) &#123;<span class="hljs-keyword">if</span>(ch == <span class="hljs-string">'-'</span>) f = <span class="hljs-number">-1</span>; ch = getchar();&#125;</span><br><span class="line">	<span class="hljs-keyword">while</span>(ch &gt;= <span class="hljs-string">'0'</span> &amp;&amp; ch &lt;= <span class="hljs-string">'9'</span>) &#123;x = x * <span class="hljs-number">10</span> + ch - <span class="hljs-string">'0'</span>; ch = getchar();&#125;</span><br><span class="line">	x *= f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> <span class="hljs-title">readll</span><span class="hljs-params">(ll &amp;x)</span> </span>&#123;</span><br><span class="line">	ll f = <span class="hljs-number">1</span>;x = <span class="hljs-number">0</span>;<span class="hljs-keyword">char</span> ch = getchar();</span><br><span class="line">	<span class="hljs-keyword">while</span>(ch &lt; <span class="hljs-string">'0'</span> || ch &gt; <span class="hljs-string">'9'</span>) &#123;<span class="hljs-keyword">if</span>(ch == <span class="hljs-string">'-'</span>) f = <span class="hljs-number">-1</span>; ch = getchar();&#125;</span><br><span class="line">	<span class="hljs-keyword">while</span>(ch &gt;= <span class="hljs-string">'0'</span> &amp;&amp; ch &lt;= <span class="hljs-string">'9'</span>) &#123;x = x * <span class="hljs-number">10</span> + ch - <span class="hljs-string">'0'</span>; ch = getchar();&#125;</span><br><span class="line">	x *= f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">double</span> H , h , D;</span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> eps = <span class="hljs-number">1e-7</span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">f</span><span class="hljs-params">(<span class="hljs-keyword">double</span> mid)</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">double</span> straight = mid / (H - h) * h;</span><br><span class="line">	<span class="hljs-keyword">if</span>(straight + mid - D &gt; eps) &#123;</span><br><span class="line">		straight = D - mid;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">// h - delta * (straight / mid)</span></span><br><span class="line">	<span class="hljs-comment">// delta : H - h</span></span><br><span class="line">	<span class="hljs-keyword">double</span> delta = H - h;</span><br><span class="line">	<span class="hljs-keyword">double</span> up = h - delta * (straight / mid);</span><br><span class="line">	<span class="hljs-keyword">if</span>(<span class="hljs-number">0</span> - up &gt; eps) up = <span class="hljs-number">0</span>;</span><br><span class="line">	<span class="hljs-keyword">return</span> straight + up;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%lf%lf%lf"</span> , &amp;H , &amp;h , &amp;D);</span><br><span class="line">	<span class="hljs-keyword">double</span> l = <span class="hljs-number">0</span> , r = D;</span><br><span class="line">	<span class="hljs-keyword">while</span>(r - l &gt; eps) &#123;</span><br><span class="line">		<span class="hljs-keyword">double</span> lmid = l + (r - l) / <span class="hljs-number">3</span> , rmid = r - (r - l) / <span class="hljs-number">3</span>;</span><br><span class="line">		<span class="hljs-keyword">if</span>(f(rmid) - f(lmid) &gt; eps) l = lmid;</span><br><span class="line">		<span class="hljs-keyword">else</span> r = rmid;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-built_in">cout</span> &lt;&lt; fixed &lt;&lt; setprecision(<span class="hljs-number">3</span>) &lt;&lt; f(l) &lt;&lt; <span class="hljs-built_in">endl</span>;</span><br><span class="line">	<span class="hljs-keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">	<span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> lmy</span></span><br><span class="line">		<span class="hljs-keyword">int</span> nol_cl = clock();</span><br><span class="line">	<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">int</span> T;</span><br><span class="line">	read(T);</span><br><span class="line">	<span class="hljs-keyword">while</span>(T--) &#123;</span><br><span class="line">		solve();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">// did you forget to undefine Lmy ?</span></span><br><span class="line">	<span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> lmy</span></span><br><span class="line">		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"\nTime: %dms\n"</span>, <span class="hljs-keyword">int</span>((clock() - nol_cl) / (<span class="hljs-keyword">double</span>)CLOCKS_PER_SEC * <span class="hljs-number">1000</span>));</span><br><span class="line">	<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span></span><br><span class="line">	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/10/清华集训2015-Light-Bulb-题解/#more">阅读更多</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/三分法/">三分法</a>
                 </div>
             </div>
         </div>
+        
         
         
     </div>
@@ -238,273 +187,26 @@
 
 
 
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-09T23:10:49.000Z">2019-03-10</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 分钟 读完 (大约 659 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/10/Baltic2004-Friends-题解/">[Baltic2004]Friends 题解</a>
-            
-        </h1>
-        <div class="content">
-            <p>题意：对于一个字符串$s$,复制一遍之后得到$e$，在$e$的任何位置插入一个字符形成$u$。给定$u$，求字符串$s$.</p>
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/03/10/SCOI2010-传送带-题解/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">[SCOI2010]传送带 题解</span>
+            </a>
         </div>
         
         
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/10/Baltic2004-Friends-题解/#more">阅读更多</a>
-                </div>
-            </div>
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/10/Baltic2004-Friends-题解/">
+                <span class="level-item">[Baltic2004]Friends 题解</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        
         
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-09T22:56:57.000Z">2019-03-10</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    5 分钟 读完 (大约 746 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/10/CF1131D-Gourmet-Choice-题解/">[CF1131D]Gourmet Choice 题解</a>
-            
-        </h1>
-        <div class="content">
-            <p>题意：有两组食物，分别有$n$个和$m$个。<br>给定$n\times m$的一个表格，其中$a[i][j]$表示第一组第$i$个食物和第二组第$j$个食物的美味度大小关系。<br>请问是否能给出一组美味度方案。如果有，请给出美味度最大值最小的方案。如果没有，请输出<code>No</code>.</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/10/CF1131D-Gourmet-Choice-题解/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-09T04:27:52.000Z">2019-03-09</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    13 分钟 读完 (大约 2016 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/09/CF545-div-2-题解/">CodeForces Round 545(div 2) 题解</a>
-            
-        </h1>
-        <div class="content">
-            <p><del>跟个sb一样</del><br><a href="https://codeforc.es/contest/1138" target="_blank" rel="noopener">比赛链接</a><br>今天来改题了。<br></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/09/CF545-div-2-题解/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-09T01:37:22.000Z">2019-03-09</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 分钟 读完 (大约 584 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/09/BZOJ2194-快速傅里叶之二-题解/">[BZOJ2194] 快速傅里叶之二 题解</a>
-            
-        </h1>
-        <div class="content">
-            <p>题意：求<script type="math/tex">C_k=\sum_{k}^{n-1}a_ib_{i-k}.</script><br>$n \leq 1e5$.</p>
-<h2 id><a href="#" class="headerlink" title></a></h2>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/09/BZOJ2194-快速傅里叶之二-题解/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-09T01:33:15.000Z">2019-03-09</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 350 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/09/ZJOI2014-力-题解/">[ZJOI2014]力 题解</a>
-            
-        </h1>
-        <div class="content">
-            <p>题意：<br><img src="https://i.loli.net/2019/02/04/5c579c7954e92.jpg" alt></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/09/ZJOI2014-力-题解/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
 
 
 
@@ -670,7 +372,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
+                    <img src="/favicon.ico" alt="[清华集训2015]Light Bulb 题解" height="28">
                 
                 </a>
                 <p class="is-size-7">
