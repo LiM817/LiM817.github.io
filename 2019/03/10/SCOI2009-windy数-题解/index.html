@@ -3,18 +3,23 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-<title>标签: FFT - LiM-817&#39;s Blog</title>
+<title>[SCOI2009]windy数 题解 - LiM-817&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="LiM-817&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/tags/FFT/index.html">
+    <meta name="description" content="数位dp模板题。">
+<meta name="keywords" content="数位dp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[SCOI2009]windy数 题解">
+<meta property="og:url" content="http://yoursite.com/2019/03/10/SCOI2009-windy数-题解/index.html">
 <meta property="og:site_name" content="LiM-817&#39;s Blog">
+<meta property="og:description" content="数位dp模板题。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-10T05:24:49.754Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LiM-817&#39;s Blog">
+<meta name="twitter:title" content="[SCOI2009]windy数 题解">
+<meta name="twitter:description" content="数位dp模板题。">
 
 
 
@@ -86,7 +91,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
+                <img src="/favicon.ico" alt="[SCOI2009]windy数 题解" height="28">
             
             </a>
         </div>
@@ -125,23 +130,12 @@
         <div class="container">
             <div class="columns">
                 <div class="column my-content is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">FFT</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    <div class="card">
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-09T01:37:22.000Z">2019-03-09</time>
+                <time class="level-item has-text-grey" datetime="2019-03-10T05:15:24.000Z">2019-03-10</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/题解/">题解</a>
@@ -151,7 +145,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 584 个字)
+                    3 分钟 读完 (大约 395 个字)
                 </span>
                 
                 
@@ -160,22 +154,25 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/03/09/BZOJ2194-快速傅里叶之二-题解/">[BZOJ2194] 快速傅里叶之二 题解</a>
+                [SCOI2009]windy数 题解
             
         </h1>
         <div class="content">
-            <p>题意：求<script type="math/tex">C_k=\sum_{k}^{n-1}a_ib_{i-k}.</script><br>$n \leq 1e5$.</p>
-<h2 id><a href="#" class="headerlink" title></a></h2>
+            <p>数位dp模板题。</p>
+<a id="more"></a>
+<p>$dp[t][p]$表示还剩$t$位，上一位填的是$p$的方案数。<br>那么转移就是$dp[t][p] = \sum dp[t-1][q], abs(p-q) \geq 2$.<br>这里采用dls的可读性极高的写法。<br>举个例子，如果我们要计算$[1,3323]$的答案，那么先把$[1,999]$的答案整段算完。<br><strong>然后剩下的一位一位卡着算就行了。</strong><br>具体见代码，如果实在不懂可以画图理解。<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment"> * @Author: Mingyu Li</span></span><br><span class="line"><span class="hljs-comment"> * @Date:   2019-03-10T09:32:31+08:00</span></span><br><span class="line"><span class="hljs-comment"> * @Email:  class11limingyu@126.com</span></span><br><span class="line"><span class="hljs-comment"> * @Filename: [SCOI2009]windy数.cpp</span></span><br><span class="line"><span class="hljs-comment"> * @Last modified by:   Mingyu Li</span></span><br><span class="line"><span class="hljs-comment"> * @Last modified time: 2019-03-10T10:19:58+08:00</span></span><br><span class="line"><span class="hljs-comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> tpname typename</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Go(i , x , y) for(register int i = x; i &lt;= y; i++)</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> God(i , y , x) for(register int i = y; i &gt;= x; i--)</span></span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> LL;</span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">double</span> ld;</span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ULL;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt; tpname T &gt; <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sc</span><span class="hljs-params">(T&amp; t)</span> </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">char</span> c = getchar(); T x = <span class="hljs-number">1</span>; t = <span class="hljs-number">0</span>; <span class="hljs-keyword">while</span>(!<span class="hljs-built_in">isdigit</span>(c)) &#123;<span class="hljs-keyword">if</span>(c == <span class="hljs-string">'-'</span>) x = <span class="hljs-number">-1</span>; c = getchar();&#125;</span><br><span class="line">  <span class="hljs-keyword">while</span>(<span class="hljs-built_in">isdigit</span>(c)) t = t * <span class="hljs-number">10</span> + c - <span class="hljs-string">'0'</span> , c = getchar();t *= x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt; tpname T , tpname... Args &gt; <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sc</span><span class="hljs-params">(T&amp; t , Args&amp;... args)</span> </span>&#123;sc(t); sc(args...);&#125;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt; tpname T &gt; <span class="hljs-function">T <span class="hljs-title">mul</span><span class="hljs-params">(T x , T y , T _)</span> </span>&#123;</span><br><span class="line">  x %= _,y %= _; <span class="hljs-keyword">return</span> ((x * y - (T)(((ld)x * y + <span class="hljs-number">0.5</span>) / _) * _) % _ + _) % _;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">int</span> d[<span class="hljs-number">20</span>] , l , r;</span><br><span class="line"><span class="hljs-keyword">int</span> dp[<span class="hljs-number">20</span>][<span class="hljs-number">20</span>];</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">F</span><span class="hljs-params">(<span class="hljs-keyword">int</span> k , <span class="hljs-keyword">int</span> p)</span> </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">if</span>(dp[k][p] != <span class="hljs-number">-1</span>) <span class="hljs-keyword">return</span> dp[k][p];</span><br><span class="line">  <span class="hljs-keyword">if</span>(k == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> dp[k][p] = <span class="hljs-number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;</span><br><span class="line">  Go(q , <span class="hljs-number">0</span> , <span class="hljs-number">9</span>) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">abs</span>(p - q) &gt;= <span class="hljs-number">2</span>) ans += F(k<span class="hljs-number">-1</span> , q);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-keyword">return</span> dp[k][p] = ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">cal</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">int</span> m = <span class="hljs-number">0</span>;</span><br><span class="line">  <span class="hljs-keyword">while</span>(x) &#123;</span><br><span class="line">    d[m] = x%<span class="hljs-number">10</span>; x /= <span class="hljs-number">10</span>; m++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;</span><br><span class="line">  God(i , m<span class="hljs-number">-1</span> , <span class="hljs-number">1</span>) &#123;</span><br><span class="line">    Go(j , <span class="hljs-number">1</span> , <span class="hljs-number">9</span>) ans += F(i<span class="hljs-number">-1</span> , j); <span class="hljs-comment">// 整段</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-keyword">int</span> pre = <span class="hljs-number">-100</span>;</span><br><span class="line">  God(i , m<span class="hljs-number">-1</span> , <span class="hljs-number">0</span>) &#123;</span><br><span class="line">    Go(j , (i == m<span class="hljs-number">-1</span>) ? <span class="hljs-number">1</span> : <span class="hljs-number">0</span> , d[i] - <span class="hljs-number">1</span>) &#123; <span class="hljs-comment">// 卡着边界</span></span><br><span class="line">      <span class="hljs-keyword">if</span>(<span class="hljs-built_in">abs</span>(pre - j) &gt;= <span class="hljs-number">2</span>) ans += F(i , j);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">abs</span>(pre - d[i]) &lt; <span class="hljs-number">2</span>) <span class="hljs-keyword">break</span>;</span><br><span class="line">    pre = d[i];</span><br><span class="line">    <span class="hljs-comment">// 钦定一位之后继续</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">memset</span>(dp , <span class="hljs-number">-1</span> , <span class="hljs-keyword">sizeof</span>(dp));</span><br><span class="line">  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span> &gt;&gt; l &gt;&gt; r;</span><br><span class="line">  <span class="hljs-comment">// cal 计算的是开区间</span></span><br><span class="line">  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; cal(r+<span class="hljs-number">1</span>) - cal(l) &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/09/BZOJ2194-快速傅里叶之二-题解/#more">阅读更多</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/数位dp/">数位dp</a>
                 </div>
             </div>
         </div>
+        
         
         
     </div>
@@ -185,113 +182,19 @@
 
 
 
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-09T01:33:15.000Z">2019-03-09</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 350 个字)
-                </span>
-                
-                
-            </div>
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/10/SCOI2010-传送带-题解/">
+                <span class="level-item">[SCOI2010]传送带 题解</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/09/ZJOI2014-力-题解/">[ZJOI2014]力 题解</a>
-            
-        </h1>
-        <div class="content">
-            <p>题意：<br><img src="https://i.loli.net/2019/02/04/5c579c7954e92.jpg" alt></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/09/ZJOI2014-力-题解/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
         
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-08T13:18:07.000Z">2019-03-08</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/算法笔记/">算法笔记</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    23 分钟 读完 (大约 3382 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/08/FFT详解/">FFT详解</a>
-            
-        </h1>
-        <div class="content">
-            <p>用于计算一类朴素卷积问题。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/08/FFT详解/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
 
 
 
@@ -457,7 +360,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
+                    <img src="/favicon.ico" alt="[SCOI2009]windy数 题解" height="28">
                 
                 </a>
                 <p class="is-size-7">
