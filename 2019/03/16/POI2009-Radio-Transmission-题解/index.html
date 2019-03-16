@@ -3,19 +3,24 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-<title>分类 - LiM-817&#39;s Blog</title>
+<title>[POI2009]Radio Transmission 题解 - LiM-817&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="keywords" content="Hash,并查集,拓扑排序,数学,FFT,数位dp,KMP,exKMP,三分法,CodeForces">
-<meta property="og:type" content="website">
-<meta property="og:title" content="LiM-817&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+    <meta name="description" content="虽然是个hash裸题但是KMP的做法也很妙~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[POI2009]Radio Transmission 题解">
+<meta property="og:url" content="http://yoursite.com/2019/03/16/POI2009-Radio-Transmission-题解/index.html">
 <meta property="og:site_name" content="LiM-817&#39;s Blog">
+<meta property="og:description" content="虽然是个hash裸题但是KMP的做法也很妙~">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/03/16/5c8c5ad9b9312.jpg">
+<meta property="og:updated_time" content="2019-03-16T02:10:40.461Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LiM-817&#39;s Blog">
+<meta name="twitter:title" content="[POI2009]Radio Transmission 题解">
+<meta name="twitter:description" content="虽然是个hash裸题但是KMP的做法也很妙~">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/16/5c8c5ad9b9312.jpg">
 
 
 
@@ -87,7 +92,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
+                <img src="/favicon.ico" alt="[POI2009]Radio Transmission 题解" height="28">
             
             </a>
         </div>
@@ -99,7 +104,7 @@
                 
                 <a class="navbar-item" href="/archives">归档</a>
                 
-                <a class="navbar-item is-active" href="/categories">分类</a>
+                <a class="navbar-item" href="/categories">分类</a>
                 
                 <a class="navbar-item" href="/tags">标签</a>
                 
@@ -125,35 +130,67 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column my-content is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
-            <li>
-        <a class="level is-marginless" href="/categories/算法笔记/">
-            <span class="level-start">
-                <span class="level-item">算法笔记</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/题解/">
-            <span class="level-start">
-                <span class="level-item">题解</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">12</span>
-            </span>
-        </a></li>
-            </ul>
+                <div class="column my-content is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-16T01:57:47.000Z">2019-03-16</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 229 个字)
+                </span>
+                
+                
+            </div>
         </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                [POI2009]Radio Transmission 题解
+            
+        </h1>
+        <div class="content">
+            <p>虽然是个hash裸题但是KMP的做法也很妙~</p>
+<a id="more"></a>
+<p>答案就是$n-next[n]$.<br>为啥？<br>考虑画图。</p>
+<p><img src="https://i.loli.net/2019/03/16/5c8c5ad9b9312.jpg" alt></p>
+<p>考虑根据$n-next[n]$的长度分段。</p>
+<p>不难通过一一对应以及$border$的定义证明。</p>
+<p>然后就完事了。<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment"> * @Author: Mingyu Li</span></span><br><span class="line"><span class="hljs-comment"> * @Date:   2019-03-16T09:53:21+08:00</span></span><br><span class="line"><span class="hljs-comment"> * @Email:  class11limingyu@126.com</span></span><br><span class="line"><span class="hljs-comment"> * @Filename: P4391.cpp</span></span><br><span class="line"><span class="hljs-comment"> * @Last modified by:   Mingyu Li</span></span><br><span class="line"><span class="hljs-comment"> * @Last modified time: 2019-03-16T09:55:56+08:00</span></span><br><span class="line"><span class="hljs-comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Go(i , x , y) for(register int i = x; i &lt;= y; i++)</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> God(i , y , x) for(register int i = y; i &gt;= x; i--)</span></span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> LL;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt; <span class="hljs-keyword">typename</span> T &gt; <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sc</span><span class="hljs-params">(T&amp; t)</span> </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">char</span> c = getchar(); T x = <span class="hljs-number">1</span>; t = <span class="hljs-number">0</span>; <span class="hljs-keyword">while</span>(!<span class="hljs-built_in">isdigit</span>(c)) &#123;<span class="hljs-keyword">if</span>(c == <span class="hljs-string">'-'</span>) x = <span class="hljs-number">-1</span>; c = getchar();&#125;</span><br><span class="line">  <span class="hljs-keyword">while</span>(<span class="hljs-built_in">isdigit</span>(c)) t = t * <span class="hljs-number">10</span> + c - <span class="hljs-string">'0'</span> , c = getchar();t *= x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt; <span class="hljs-keyword">typename</span> T , <span class="hljs-keyword">typename</span>... Args &gt; <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sc</span><span class="hljs-params">(T&amp; t , Args&amp;... args)</span> </span>&#123;sc(t); sc(args...);&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">1000000</span> + <span class="hljs-number">5</span>;</span><br><span class="line"><span class="hljs-keyword">char</span> a[N];</span><br><span class="line"><span class="hljs-keyword">int</span> n , Next[N];</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  sc(n); <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%s"</span> , (a+<span class="hljs-number">1</span>));</span><br><span class="line">  Next[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;</span><br><span class="line">  Go(i,<span class="hljs-number">2</span>,n) &#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> j = Next[i<span class="hljs-number">-1</span>];</span><br><span class="line">    <span class="hljs-keyword">while</span>(j &amp;&amp; a[j+<span class="hljs-number">1</span>] != a[i]) j = Next[j];</span><br><span class="line">    <span class="hljs-keyword">if</span>(a[j+<span class="hljs-number">1</span>] == a[i]) Next[i] = j+<span class="hljs-number">1</span>;</span><br><span class="line">    <span class="hljs-keyword">else</span> Next[i] = <span class="hljs-number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; n - Next[n] &lt;&lt; <span class="hljs-string">"\n"</span>;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+        </div>
+        
+        
+        
     </div>
-</div></div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/15/KMP-exKMP详解/">
+                <span class="level-item">KMP&amp;exKMP详解</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
                 
 
 
@@ -291,7 +328,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
+                    <img src="/favicon.ico" alt="[POI2009]Radio Transmission 题解" height="28">
                 
                 </a>
                 <p class="is-size-7">
