@@ -131,6 +131,50 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-16T23:37:02.000Z">2019-03-17</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 270 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/03/17/POI2006-OKR-Periods-of-Words-题解/">[POI2006]OKR-Periods of Words 题解</a>
+            
+        </h1>
+        <div class="content">
+            <p>一般题目会让你求最小周期，这个让你求最大周期，咋办？<br>就是不停的跳$next$，直到不能跳了为止。<br><img src="https://i.loli.net/2019/03/17/5c8d89699a95c.jpg" alt><br>红色部分为不能继续跳的$next$部分。不难通过一一对应及$border$的性质证明。</p>
+<p>加个记忆化，这个题就做完了。</p>
+<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment"> * @Author: Mingyu Li</span></span><br><span class="line"><span class="hljs-comment"> * @Date:   2019-03-16T23:00:02+08:00</span></span><br><span class="line"><span class="hljs-comment"> * @Email:  class11limingyu@126.com</span></span><br><span class="line"><span class="hljs-comment"> * @Filename: P3435.cpp</span></span><br><span class="line"><span class="hljs-comment"> * @Last modified by:   Mingyu Li</span></span><br><span class="line"><span class="hljs-comment"> * @Last modified time: 2019-03-16T23:10:37+08:00</span></span><br><span class="line"><span class="hljs-comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Go(i , x , y) for(register int i = x; i &lt;= y; i++)</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> God(i , y , x) for(register int i = y; i &gt;= x; i--)</span></span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> LL;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt; <span class="hljs-keyword">typename</span> T &gt; <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sc</span><span class="hljs-params">(T&amp; t)</span> </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">char</span> c = getchar(); T x = <span class="hljs-number">1</span>; t = <span class="hljs-number">0</span>; <span class="hljs-keyword">while</span>(!<span class="hljs-built_in">isdigit</span>(c)) &#123;<span class="hljs-keyword">if</span>(c == <span class="hljs-string">'-'</span>) x = <span class="hljs-number">-1</span>; c = getchar();&#125;</span><br><span class="line">  <span class="hljs-keyword">while</span>(<span class="hljs-built_in">isdigit</span>(c)) t = t * <span class="hljs-number">10</span> + c - <span class="hljs-string">'0'</span> , c = getchar();t *= x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt; <span class="hljs-keyword">typename</span> T , <span class="hljs-keyword">typename</span>... Args &gt; <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sc</span><span class="hljs-params">(T&amp; t , Args&amp;... args)</span> </span>&#123;sc(t); sc(args...);&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">1000000</span> + <span class="hljs-number">10</span>;</span><br><span class="line"><span class="hljs-keyword">int</span> next[N] , n;</span><br><span class="line"><span class="hljs-keyword">char</span> c[N];</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  sc(n);<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%s"</span> , (c + <span class="hljs-number">1</span>));</span><br><span class="line">  next[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;</span><br><span class="line">  Go(i , <span class="hljs-number">2</span> , n) &#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> j = next[i<span class="hljs-number">-1</span>];</span><br><span class="line">    <span class="hljs-keyword">while</span>(j &amp;&amp; c[i] != c[j + <span class="hljs-number">1</span>]) j = next[j];</span><br><span class="line">    <span class="hljs-keyword">if</span>(c[i] == c[j+<span class="hljs-number">1</span>]) next[i] = j+<span class="hljs-number">1</span>;</span><br><span class="line">    <span class="hljs-keyword">else</span> next[i] = <span class="hljs-number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  LL ans = <span class="hljs-number">0</span>;</span><br><span class="line">  Go(i , <span class="hljs-number">2</span> , n) &#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> j = i;</span><br><span class="line">    <span class="hljs-keyword">while</span>(next[j]) j = next[j];</span><br><span class="line">    <span class="hljs-keyword">if</span>(next[i]) next[i] = j;</span><br><span class="line">    ans += <span class="hljs-number">1l</span>l * (i - j);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; ans &lt;&lt; <span class="hljs-string">"\n"</span>;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-03-16T13:10:43.000Z">2019-03-16</time>
                 
                 <div class="level-item">
@@ -599,59 +643,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-09T23:12:50.000Z">2019-03-10</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 分钟 读完 (大约 428 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/10/清华集训2015-Light-Bulb-题解/">[清华集训2015]Light Bulb 题解</a>
-            
-        </h1>
-        <div class="content">
-            <p>可以观察题目中隐含的单调性来解决本题。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/10/清华集训2015-Light-Bulb-题解/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -710,7 +701,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        18
+                        19
                     </p>
                 </div>
             </div>
