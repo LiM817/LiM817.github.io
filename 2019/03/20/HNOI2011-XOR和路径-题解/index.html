@@ -3,23 +3,23 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-<title>高斯消元 详解 - LiM-817&#39;s Blog</title>
+<title>[HNOI2011]XOR和路径 题解 - LiM-817&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="高斯消元是解决一类线性多元方程组的利器。">
-<meta name="keywords" content="高斯消元">
+    <meta name="description" content="运用高斯消元来$dp$.">
+<meta name="keywords" content="高斯消元,概率期望dp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="高斯消元 详解">
-<meta property="og:url" content="http://yoursite.com/2019/03/17/高斯消元-详解/index.html">
+<meta property="og:title" content="[HNOI2011]XOR和路径 题解">
+<meta property="og:url" content="http://yoursite.com/2019/03/20/HNOI2011-XOR和路径-题解/index.html">
 <meta property="og:site_name" content="LiM-817&#39;s Blog">
-<meta property="og:description" content="高斯消元是解决一类线性多元方程组的利器。">
+<meta property="og:description" content="运用高斯消元来$dp$.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-17T06:33:08.107Z">
+<meta property="og:updated_time" content="2019-03-19T22:25:36.836Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="高斯消元 详解">
-<meta name="twitter:description" content="高斯消元是解决一类线性多元方程组的利器。">
+<meta name="twitter:title" content="[HNOI2011]XOR和路径 题解">
+<meta name="twitter:description" content="运用高斯消元来$dp$.">
 
 
 
@@ -91,7 +91,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/favicon.ico" alt="高斯消元 详解" height="28">
+                <img src="/favicon.ico" alt="[HNOI2011]XOR和路径 题解" height="28">
             
             </a>
         </div>
@@ -135,17 +135,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-17T01:07:17.000Z">2019-03-17</time>
+                <time class="level-item has-text-grey" datetime="2019-03-19T22:17:08.000Z">2019-03-20</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/算法笔记/">算法笔记</a>
+                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 674 个字)
+                    4 分钟 读完 (大约 535 个字)
                 </span>
                 
                 
@@ -154,41 +154,15 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                高斯消元 详解
+                [HNOI2011]XOR和路径 题解
             
         </h1>
         <div class="content">
-            <p>高斯消元是解决一类线性多元方程组的利器。</p>
+            <p>运用高斯消元来$dp$.</p>
 <a id="more"></a>
-<p>举个例子，如果让你求解如下的方程，你该怎么办？</p>
-<script type="math/tex; mode=display">\begin{cases}
-        2x+y+z=1&①\\
-        6x+2y+z=-1&②\\
-        -2x+2y+z=7&③\\
-\end{cases}</script><p>正常人的思路差不多就是加减消元/代入消元，最后解出来所有答案。<br>下面我们来模拟一下正常人的解题过程：</p>
-<hr>
-<p>$(-3)\times①+②:0x - y - 2z = -4$<br>$①+③:0x + 3y + 2z = 8$</p>
-<p>所以有</p>
-<script type="math/tex; mode=display">\begin{cases}
-        2x + y + z=1&①\\
-        0x - y - 2z=-4&②\\
-        0x + 3y + 2z = 8&③\\
-\end{cases}</script><p>发现$x$消不了了，开始消$y$.</p>
-<p>$②\times3+③:-4z = -4.$</p>
-<p>于是解得：</p>
-<script type="math/tex; mode=display">z = 1.</script><p>这时候就可以把$z$带回去解别的。</p>
-<p>代入$②:0x-y-2=-4$<br>解得<script type="math/tex">y = 2.</script></p>
-<p>然后带回$①:x=-1.$<br>然后就解完了。</p>
-<hr>
-<p>考虑把解题过程中的$x,y,z$项写成矩阵。<br>所以一开始的矩阵就是<br>$\begin{bmatrix}<br>x &amp; y &amp; z &amp; val<br>\\ 2 &amp; 1 &amp; 1 &amp; 1<br>\\ 6 &amp; 2 &amp; 1 &amp; -1<br>\\ -2 &amp; 2 &amp; 1 &amp; 7<br>\end{bmatrix}$<br>消完$x$之后：</p>
-<p>$\begin{bmatrix}<br>x &amp; y &amp; z &amp; val<br>\\ 2 &amp; 1 &amp; 1 &amp; 1<br>\\ 0 &amp; -1 &amp; -2 &amp; -4<br>\\ 0 &amp; 3 &amp; 2 &amp; 8<br>\end{bmatrix}$<br>消完$y$之后：<br>$\begin{bmatrix}<br>x &amp; y &amp; z &amp; val<br>\\ 2 &amp; 1 &amp; 1 &amp; 1<br>\\ 0 &amp; -1 &amp; -2 &amp; -4<br>\\ 0 &amp; 0 &amp; -4 &amp; -4<br>\end{bmatrix}$</p>
-<p>发现矩阵中的0元素构成了一个上三角，<strong>我们称这玩意为”上三角矩阵”</strong>。</p>
-<p>显然，最理想情况一定是构成这玩意，直接一直回代就可以了。<br>那么我们来分析一下多个解或无解的情况：<br>无解：一行系数全0，但$val ≠ 0$.<br>多个解：好几行系数和$val$全是0.</p>
-<p>分析完了。如何实现？</p>
-<hr>
-<p>算法流程：一项一项消。<br>消到第i项的时候，找系数绝对值最大的（好判断无解）来作为主式子。<br>然后硬消就行了。</p>
-<p>附$Luogu$模板题代码：</p>
-<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment"> * @Author: Mingyu Li</span></span><br><span class="line"><span class="hljs-comment"> * @Date:   2019-03-17T11:01:04+08:00</span></span><br><span class="line"><span class="hljs-comment"> * @Email:  class11limingyu@126.com</span></span><br><span class="line"><span class="hljs-comment"> * @Filename: Gauss消元.cpp</span></span><br><span class="line"><span class="hljs-comment"> * @Last modified by:   Mingyu Li</span></span><br><span class="line"><span class="hljs-comment"> * @Last modified time: 2019-03-17T11:26:00+08:00</span></span><br><span class="line"><span class="hljs-comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Go(i , x , y) for(register int i = x; i &lt;= y; i++)</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> God(i , y , x) for(register int i = y; i &gt;= x; i--)</span></span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> LL;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt; <span class="hljs-keyword">typename</span> T &gt; <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sc</span><span class="hljs-params">(T&amp; t)</span> </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">char</span> c = getchar(); T x = <span class="hljs-number">1</span>; t = <span class="hljs-number">0</span>; <span class="hljs-keyword">while</span>(!<span class="hljs-built_in">isdigit</span>(c)) &#123;<span class="hljs-keyword">if</span>(c == <span class="hljs-string">'-'</span>) x = <span class="hljs-number">-1</span>; c = getchar();&#125;</span><br><span class="line">  <span class="hljs-keyword">while</span>(<span class="hljs-built_in">isdigit</span>(c)) t = t * <span class="hljs-number">10</span> + c - <span class="hljs-string">'0'</span> , c = getchar();t *= x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt; <span class="hljs-keyword">typename</span> T , <span class="hljs-keyword">typename</span>... Args &gt; <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sc</span><span class="hljs-params">(T&amp; t , Args&amp;... args)</span> </span>&#123;sc(t); sc(args...);&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">100</span> + <span class="hljs-number">5</span>;</span><br><span class="line"><span class="hljs-keyword">int</span> n;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">double</span> g[N][N];</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  sc(n);</span><br><span class="line">  Go(i, <span class="hljs-number">1</span>, n)</span><br><span class="line">    Go(j, <span class="hljs-number">1</span>, n+<span class="hljs-number">1</span>)</span><br><span class="line">      <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%lf"</span> , &amp;g[i][j]);</span><br><span class="line"></span><br><span class="line">  Go(i, <span class="hljs-number">1</span>, n) &#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> now = i;</span><br><span class="line">    Go(j , i+<span class="hljs-number">1</span>, n) <span class="hljs-keyword">if</span>(<span class="hljs-built_in">fabs</span>(g[now][i]) &lt; <span class="hljs-built_in">fabs</span>(g[j][i])) now = i;</span><br><span class="line">    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">fabs</span>(g[now][i]) &lt; <span class="hljs-number">1e-9</span>) &#123;</span><br><span class="line">      <span class="hljs-built_in">puts</span>(<span class="hljs-string">"No Solution"</span>);</span><br><span class="line">      <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Go(j , i, n+<span class="hljs-number">1</span>) <span class="hljs-built_in">std</span>::swap(g[now][j] , g[i][j]);</span><br><span class="line">    Go(j , i+<span class="hljs-number">1</span> , n+<span class="hljs-number">1</span>) g[i][j] /= g[i][i];</span><br><span class="line">    g[i][i] = <span class="hljs-number">1</span>;</span><br><span class="line"></span><br><span class="line">    Go(j , i+<span class="hljs-number">1</span> , n) &#123;</span><br><span class="line">      Go(k , i+<span class="hljs-number">1</span> , n+<span class="hljs-number">1</span>) &#123;</span><br><span class="line">        g[j][k] -= g[j][i] * g[i][k];</span><br><span class="line">      &#125;</span><br><span class="line">      g[j][i] = <span class="hljs-number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  God(i, n, <span class="hljs-number">1</span>) &#123;</span><br><span class="line">    Go(j , i+<span class="hljs-number">1</span> , n) g[i][n+<span class="hljs-number">1</span>] -= g[i][j] * g[j][n+<span class="hljs-number">1</span>];</span><br><span class="line">    g[i][n+<span class="hljs-number">1</span>] /= g[i][i];</span><br><span class="line">    g[i][i] = <span class="hljs-number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Go(i , <span class="hljs-number">1</span> , n) <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">std</span>::fixed &lt;&lt; <span class="hljs-built_in">std</span>::setprecision(<span class="hljs-number">2</span>) &lt;&lt; g[i][n+<span class="hljs-number">1</span>] &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>XOR的期望比较难算。我们可以针对每一位算出期望，再加起来。<br>于是，我们只需要算出第i位是1的概率，在$\times 2^i$，加起来即可。<br>怎么$dp$？<br>设$dp[u]$表示从$u$到$n$点时第$i$位为1的概率。<br>那么考虑所有u连向的节点v，即可转移：</p>
+<script type="math/tex; mode=display">dp[u]=\sum_{(u\rightarrow v)\in E\ and\ w\ bitand \ bit ==1}\frac{(1-dp[v])}{dg[u]}+\sum_{(u\rightarrow v)\in E\ and\ w\ bitand \ bit ==0}\frac{(dp[v])}{dg[u]}</script><p>含义是，$u$到$v$概率乘上对应$v$的概率，再加起来即可。<br>同样的，使用高斯消元解$dp$数组。</p>
+<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment"> * @Author: Mingyu Li</span></span><br><span class="line"><span class="hljs-comment"> * @Date:   2019-03-19T20:22:18+08:00</span></span><br><span class="line"><span class="hljs-comment"> * @Last modified by:   Mingyu Li</span></span><br><span class="line"><span class="hljs-comment"> * @Last modified time: 2019-03-19T21:23:07+08:00</span></span><br><span class="line"><span class="hljs-comment"> */</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Go(i , x , y) for(register int i = x; i &lt;= y; i++)</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> God(i , y , x) for(register int i = y; i &gt;= x; i--)</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">100</span> + <span class="hljs-number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// dp[u] : u点 第i位为1的概率</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// dp[u] = \sum_&#123;(u , v) &amp; bit&#125; (1 - dp[v]) * (1 / deg[u]) + \sum_&#123;u , v &amp; bit == 0&#125; dp[v] * (1 / deg[u])</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// dp[u] = (1 / deg[u]) ...</span></span><br><span class="line"><span class="hljs-comment">// \sum_&#123;u , v &amp; bit&#125; -1   =  -deg[u]dp[u] + \sum_&#123;(u , v) &amp; bit&#125; -dp[v] + \sum_&#123;u , v &amp; bit == 0&#125; dp[v]</span></span><br><span class="line"><span class="hljs-comment">// deg[u]dp[u] = \sum_&#123;(u , v) &amp; bit&#125; (1 - dp[v]) + \sum_&#123;u , v &amp; bit == 0&#125; dp[v]</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">chkmax</span><span class="hljs-params">(<span class="hljs-keyword">int</span>&amp; a , <span class="hljs-keyword">int</span> b)</span> </span>&#123;a = <span class="hljs-built_in">std</span>::max(a, b);&#125;</span><br><span class="line"><span class="hljs-comment">// dp[n] = 0</span></span><br><span class="line"><span class="hljs-keyword">int</span> n, m, mx , dg[N];</span><br><span class="line"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span> &lt;<span class="hljs-built_in">std</span>::pair &lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt; &gt; G[N];</span><br><span class="line"><span class="hljs-keyword">double</span> g[N][N];</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Build</span><span class="hljs-params">(<span class="hljs-keyword">int</span> bit)</span> </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">memset</span>(g , <span class="hljs-number">0</span> , <span class="hljs-keyword">sizeof</span>(g));</span><br><span class="line">  g[n][n] = <span class="hljs-number">1</span>;</span><br><span class="line">  Go(i , <span class="hljs-number">1</span> , n<span class="hljs-number">-1</span>) &#123;</span><br><span class="line">    g[i][i] = -dg[i];</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; (<span class="hljs-keyword">int</span>)(G[i].size()); j++) &#123;</span><br><span class="line">      <span class="hljs-keyword">int</span> v = G[i][j].first , w = G[i][j].second;</span><br><span class="line">      <span class="hljs-keyword">if</span>(w&amp;bit) &#123;</span><br><span class="line">        g[i][n+<span class="hljs-number">1</span>]--, g[i][v]--;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="hljs-keyword">else</span> g[i][v]++;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Gauss</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  Go(i , <span class="hljs-number">1</span> , n) &#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> now = i;</span><br><span class="line">    Go(j , i+<span class="hljs-number">1</span> , n) <span class="hljs-keyword">if</span>(<span class="hljs-built_in">fabs</span>(g[now][i]) &lt; <span class="hljs-built_in">fabs</span>(g[j][i])) now = j;</span><br><span class="line">    Go(j , <span class="hljs-number">1</span> , n+<span class="hljs-number">1</span>) <span class="hljs-built_in">std</span>::swap(g[now][j] , g[i][j]);</span><br><span class="line">    Go(j , i+<span class="hljs-number">1</span> , n+<span class="hljs-number">1</span>) g[i][j] /= g[i][i];</span><br><span class="line">    g[i][i] = <span class="hljs-number">1</span>;</span><br><span class="line">    Go(j , i+<span class="hljs-number">1</span> , n) &#123;</span><br><span class="line">      Go(k , i+<span class="hljs-number">1</span> , n+<span class="hljs-number">1</span>) &#123;</span><br><span class="line">        g[j][k] -= g[j][i] * g[i][k];</span><br><span class="line">      &#125;</span><br><span class="line">      g[j][i] = <span class="hljs-number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  God(i , n , <span class="hljs-number">1</span>) &#123;</span><br><span class="line">    Go(j , i+<span class="hljs-number">1</span> , n) g[i][n+<span class="hljs-number">1</span>] -= g[i][j] * g[j][n+<span class="hljs-number">1</span>];</span><br><span class="line">    g[i][n+<span class="hljs-number">1</span>] /= g[i][i];</span><br><span class="line">    g[i][i] = <span class="hljs-number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d%d"</span> , &amp;n , &amp;m);</span><br><span class="line">  Go(i , <span class="hljs-number">1</span> , m) &#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> u , v , w;</span><br><span class="line">    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d%d%d"</span> , &amp;u , &amp;v , &amp;w);</span><br><span class="line">    G[u].push_back(&#123;v, w&#125;); ++dg[u];</span><br><span class="line">    <span class="hljs-keyword">if</span>(u == v) <span class="hljs-keyword">continue</span>;</span><br><span class="line">    G[v].push_back(&#123;u , w&#125;); ++dg[v];</span><br><span class="line">    chkmax(mx , w);</span><br><span class="line">    <span class="hljs-comment">// 自环</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-keyword">double</span> ans = <span class="hljs-number">0</span>;</span><br><span class="line">  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> bit = <span class="hljs-number">1</span>; bit &lt;= mx; bit &lt;&lt;= <span class="hljs-number">1</span>) &#123;</span><br><span class="line">    Build(bit); Gauss(); ans += g[<span class="hljs-number">1</span>][n+<span class="hljs-number">1</span>] * bit;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">std</span>::fixed &lt;&lt; <span class="hljs-built_in">std</span>::setprecision(<span class="hljs-number">3</span>) &lt;&lt; ans &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -196,7 +170,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/高斯消元/">高斯消元</a>
+                    <a class="has-link-grey -link" href="/tags/概率期望dp/">概率期望dp</a>, <a class="has-link-grey -link" href="/tags/高斯消元/">高斯消元</a>
                 </div>
             </div>
         </div>
@@ -213,17 +187,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/03/17/JSOI2008-球形空间产生器-题解/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">[JSOI2008]球形空间产生器 题解</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/17/POI2006-OKR-Periods-of-Words-题解/">
-                <span class="level-item">[POI2006]OKR-Periods of Words 题解</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/18/USACO10HOL-DOtP-题解/">
+                <span class="level-item">[USACO10HOL]DOtP 题解</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -371,7 +338,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/favicon.ico" alt="高斯消元 详解" height="28">
+                    <img src="/favicon.ico" alt="[HNOI2011]XOR和路径 题解" height="28">
                 
                 </a>
                 <p class="is-size-7">
