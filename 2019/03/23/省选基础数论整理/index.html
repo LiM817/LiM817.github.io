@@ -3,18 +3,23 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-<title>标签: FFT - LiM-817&#39;s Blog</title>
+<title>省选基础数论整理 - LiM-817&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="LiM-817&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/tags/FFT/index.html">
+    <meta name="description" content="$\text{Primality Test}$单个$\mathcal{O(\sqrt{n}):}$由于因数成对出现，找有没有$\leq \sqrt{n}$的因子即可判断。 12345bool isprime(int n) &amp;#123;  for(int i = 2; i * i &amp;lt;= n; i++)    if(n % i == 0) return 0;  return 1;&amp;#125; $">
+<meta name="keywords" content="数论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="省选基础数论整理">
+<meta property="og:url" content="http://yoursite.com/2019/03/23/省选基础数论整理/index.html">
 <meta property="og:site_name" content="LiM-817&#39;s Blog">
+<meta property="og:description" content="$\text{Primality Test}$单个$\mathcal{O(\sqrt{n}):}$由于因数成对出现，找有没有$\leq \sqrt{n}$的因子即可判断。 12345bool isprime(int n) &amp;#123;  for(int i = 2; i * i &amp;lt;= n; i++)    if(n % i == 0) return 0;  return 1;&amp;#125; $">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-25T10:31:58.010Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LiM-817&#39;s Blog">
+<meta name="twitter:title" content="省选基础数论整理">
+<meta name="twitter:description" content="$\text{Primality Test}$单个$\mathcal{O(\sqrt{n}):}$由于因数成对出现，找有没有$\leq \sqrt{n}$的因子即可判断。 12345bool isprime(int n) &amp;#123;  for(int i = 2; i * i &amp;lt;= n; i++)    if(n % i == 0) return 0;  return 1;&amp;#125; $">
 
 
 
@@ -86,7 +91,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
+                <img src="/favicon.ico" alt="省选基础数论整理" height="28">
             
             </a>
         </div>
@@ -125,33 +130,22 @@
         <div class="container">
             <div class="columns">
                 <div class="column my-content is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">FFT</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    <div class="card">
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-09T01:37:22.000Z">2019-03-09</time>
+                <time class="level-item has-text-grey" datetime="2019-03-23T13:25:32.000Z">2019-03-23</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
+                <a class="has-link-grey -link" href="/categories/省选复习/">省选复习</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 584 个字)
+                    4 分钟 读完 (大约 604 个字)
                 </span>
                 
                 
@@ -160,22 +154,36 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/03/09/BZOJ2194-快速傅里叶之二-题解/">[BZOJ2194] 快速傅里叶之二 题解</a>
+                省选基础数论整理
             
         </h1>
         <div class="content">
-            <p>题意：求<script type="math/tex">C_k=\sum_{k}^{n-1}a_ib_{i-k}.</script><br>$n \leq 1e5$.</p>
-<h2 id><a href="#" class="headerlink" title></a></h2>
+            <h3 id="text-Primality-Test"><a href="#text-Primality-Test" class="headerlink" title="$\text{Primality Test}$"></a>$\text{Primality Test}$</h3><p>单个$\mathcal{O(\sqrt{n}):}$<br>由于因数成对出现，找有没有$\leq \sqrt{n}$的因子即可判断。</p>
+<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isprime</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i * i &lt;= n; i++)</span><br><span class="line">    <span class="hljs-keyword">if</span>(n % i == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>$\mathcal{O(nlogn):}\text{Normal Sieve}$<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sieve</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  notprime[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;</span><br><span class="line">  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = i + i; j &lt;= n; j++) notprime[j] = <span class="hljs-number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>复杂度由调和级数证明。<br>$\mathcal{O(nloglogn):}\text{Eratothene Sieve}$<br>只筛素数。<br>反正根据素数分布来看大概是$\mathcal{O(nloglogn)}$的，具体不会证（雾</p>
+<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sieve</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  notprime[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;</span><br><span class="line">  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span>(!notprime[i])</span><br><span class="line">      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">2</span>; i*j &lt;= n; j++) notprime[i*j] = <span class="hljs-number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>$\mathcal{O(n):}\text{Euler Sieve}$<br>保证每个数都只能被最小的质因子筛到一次，所以复杂度是对的。<br>还可以用于筛一些积性函数。<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sieve</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span>(!!np[i]) prime[++tot] = i;</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= tot &amp;&amp; i * prime[j] &lt;= n; j++) &#123;</span><br><span class="line">      np[i * prime[j]] = <span class="hljs-number">1</span>;</span><br><span class="line">      <span class="hljs-keyword">if</span>(i % prime[j] == <span class="hljs-number">0</span>) <span class="hljs-keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>只筛一次的证明：<br>观察这一行：<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">if</span>(i % prime[j] == <span class="hljs-number">0</span>) <span class="hljs-keyword">break</span>;</span><br></pre></td></tr></table></figure></p>
+<p>考虑这样做代表着什么。显然，$i$可以表示成$k<em>prime[j].$<br>如果不$break$，那么筛下一个$prime$的时候：就有$i</em>prime[j+1] = k<em>prime[j]</em> prime[j+1]$，违背了只被最小质因子筛的规定。</p>
+<p>$\mathcal{O(klogn):}\text{Miller Rabin}$</p>
+<p>理论背景：费马小定理。<br>$设p \in prime，a$是整数，且$(a,p)=1$，就有$a^{p-1}\equiv 1\mod p$<br>证明：<br>还是举个例子吧。比如说$p=13,a=3$.<br>那么对于$[1,p-1]$之间的整数（也就是$1,2,3…p-1$），我们同乘一个$a$，变成$a,2a,…(p-1)a$。<br>我们发现乘完之后，整数中没有一个$\mod p=0$（$(a,p)=1$），也没有两个$\mod p$相等（基本性质）。所以模完之后一定是$[1…p-1]$的一个排列。也就是</p>
+<script type="math/tex; mode=display">a\times 2a\times...\times (p-1)a\equiv (p-1)!\mod p</script><p>提出来$a$：$a^{p-1}\times(p-1)!\equiv (p-1)!\mod p$<br>提出来$(p-1)!$：$a^{p-1}\equiv 1\mod p)$.得证。</p>
+<p>那么发现上面那个式子同乘$a$就是$a^p\equiv a\mod p$。<br>这个式子在$p$是素数时一定有，但是有这个式子不代表$p$一定是素数。</p>
+<p>因此引入二次探测。<br>首先证明一个东西：$x^2\equiv 1\mod p$，且$x ≠ (p-1)\mod p$，$x ≠ 1\mod p$，那么这个$p$一定是合数。</p>
+<p>证明：<br>$x^2\equiv 1\mod p$<br>$x^2 - 1\equiv 0\mod p$</p>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/09/BZOJ2194-快速傅里叶之二-题解/#more">阅读更多</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/数论/">数论</a>
                 </div>
             </div>
         </div>
+        
         
         
     </div>
@@ -185,113 +193,26 @@
 
 
 
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-09T01:33:15.000Z">2019-03-09</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 350 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/09/ZJOI2014-力-题解/">[ZJOI2014]力 题解</a>
-            
-        </h1>
-        <div class="content">
-            <p>题意：<br><img src="https://i.loli.net/2019/02/04/5c579c7954e92.jpg" alt></p>
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/03/27/CF-Round-446-改题/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">CF Round #446 改题</span>
+            </a>
         </div>
         
         
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/09/ZJOI2014-力-题解/#more">阅读更多</a>
-                </div>
-            </div>
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/20/HNOI2011-XOR和路径-题解/">
+                <span class="level-item">[HNOI2011]XOR和路径 题解</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        
         
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-08T13:18:07.000Z">2019-03-08</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/算法笔记/">算法笔记</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    23 分钟 读完 (大约 3382 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/08/FFT详解/">FFT详解</a>
-            
-        </h1>
-        <div class="content">
-            <p>用于计算一类朴素卷积问题。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/08/FFT详解/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
 
 
 
@@ -441,7 +362,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
+                    <img src="/favicon.ico" alt="省选基础数论整理" height="28">
                 
                 </a>
                 <p class="is-size-7">

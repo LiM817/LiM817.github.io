@@ -131,6 +131,118 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-27T10:12:29.000Z">2019-03-27</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 699 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/03/27/CF-Round-446-改题/">CF Round #446 改题</a>
+            
+        </h1>
+        <div class="content">
+            <p>在机房vp了一番div1，<del>就做了一个题，</del> 于是这篇文章就用来改题了。<br>链接：<a href="https://codeforces.com/contest/446" target="_blank" rel="noopener">Here</a><br></p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/03/27/CF-Round-446-改题/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-23T13:25:32.000Z">2019-03-23</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/省选复习/">省选复习</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 604 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/03/23/省选基础数论整理/">省选基础数论整理</a>
+            
+        </h1>
+        <div class="content">
+            <h3 id="text-Primality-Test"><a href="#text-Primality-Test" class="headerlink" title="$\text{Primality Test}$"></a>$\text{Primality Test}$</h3><p>单个$\mathcal{O(\sqrt{n}):}$<br>由于因数成对出现，找有没有$\leq \sqrt{n}$的因子即可判断。</p>
+<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isprime</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i * i &lt;= n; i++)</span><br><span class="line">    <span class="hljs-keyword">if</span>(n % i == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>$\mathcal{O(nlogn):}\text{Normal Sieve}$<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sieve</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  notprime[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;</span><br><span class="line">  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = i + i; j &lt;= n; j++) notprime[j] = <span class="hljs-number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>复杂度由调和级数证明。<br>$\mathcal{O(nloglogn):}\text{Eratothene Sieve}$<br>只筛素数。<br>反正根据素数分布来看大概是$\mathcal{O(nloglogn)}$的，具体不会证（雾</p>
+<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sieve</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  notprime[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;</span><br><span class="line">  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span>(!notprime[i])</span><br><span class="line">      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">2</span>; i*j &lt;= n; j++) notprime[i*j] = <span class="hljs-number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>$\mathcal{O(n):}\text{Euler Sieve}$<br>保证每个数都只能被最小的质因子筛到一次，所以复杂度是对的。<br>还可以用于筛一些积性函数。<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sieve</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span>(!!np[i]) prime[++tot] = i;</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= tot &amp;&amp; i * prime[j] &lt;= n; j++) &#123;</span><br><span class="line">      np[i * prime[j]] = <span class="hljs-number">1</span>;</span><br><span class="line">      <span class="hljs-keyword">if</span>(i % prime[j] == <span class="hljs-number">0</span>) <span class="hljs-keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>只筛一次的证明：<br>观察这一行：<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">if</span>(i % prime[j] == <span class="hljs-number">0</span>) <span class="hljs-keyword">break</span>;</span><br></pre></td></tr></table></figure></p>
+<p>考虑这样做代表着什么。显然，$i$可以表示成$k<em>prime[j].$<br>如果不$break$，那么筛下一个$prime$的时候：就有$i</em>prime[j+1] = k<em>prime[j]</em> prime[j+1]$，违背了只被最小质因子筛的规定。</p>
+<p>$\mathcal{O(klogn):}\text{Miller Rabin}$</p>
+<p>理论背景：费马小定理。<br>$设p \in prime，a$是整数，且$(a,p)=1$，就有$a^{p-1}\equiv 1\mod p$<br>证明：<br>还是举个例子吧。比如说$p=13,a=3$.<br>那么对于$[1,p-1]$之间的整数（也就是$1,2,3…p-1$），我们同乘一个$a$，变成$a,2a,…(p-1)a$。<br>我们发现乘完之后，整数中没有一个$\mod p=0$（$(a,p)=1$），也没有两个$\mod p$相等（基本性质）。所以模完之后一定是$[1…p-1]$的一个排列。也就是</p>
+<script type="math/tex; mode=display">a\times 2a\times...\times (p-1)a\equiv (p-1)!\mod p</script><p>提出来$a$：$a^{p-1}\times(p-1)!\equiv (p-1)!\mod p$<br>提出来$(p-1)!$：$a^{p-1}\equiv 1\mod p)$.得证。</p>
+<p>那么发现上面那个式子同乘$a$就是$a^p\equiv a\mod p$。<br>这个式子在$p$是素数时一定有，但是有这个式子不代表$p$一定是素数。</p>
+<p>因此引入二次探测。<br>首先证明一个东西：$x^2\equiv 1\mod p$，且$x ≠ (p-1)\mod p$，$x ≠ 1\mod p$，那么这个$p$一定是合数。</p>
+<p>证明：<br>$x^2\equiv 1\mod p$<br>$x^2 - 1\equiv 0\mod p$</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-03-19T22:17:08.000Z">2019-03-20</time>
                 
                 <div class="level-item">
@@ -546,113 +658,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-14T06:07:17.000Z">2019-03-14</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 300 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/14/HDU2089-不要62-题解/">[HDU2089]不要62 题解</a>
-            
-        </h1>
-        <div class="content">
-            <p>数位dp.</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/14/HDU2089-不要62-题解/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-13T12:14:00.000Z">2019-03-13</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 分钟 读完 (大约 470 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/13/ZJOI2010-数字计数-题解/">[ZJOI2010]数字计数 题解</a>
-            
-        </h1>
-        <div class="content">
-            <p><del>wr硬着头皮写了一发竟然过了？</del></p>
-<p>谈一谈我的做法。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/13/ZJOI2010-数字计数-题解/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -713,7 +718,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        23
+                        25
                     </p>
                 </div>
             </div>
@@ -723,7 +728,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        2
+                        3
                     </p>
                 </div>
             </div>
@@ -733,7 +738,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        12
+                        14
                     </p>
                 </div>
             </div>
@@ -772,6 +777,14 @@
             </h3>
             <ul class="menu-list">
             <li>
+        <a class="level is-marginless" href="/categories/省选复习/">
+            <span class="level-start">
+                <span class="level-item">省选复习</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/算法笔记/">
             <span class="level-start">
                 <span class="level-item">算法笔记</span>
@@ -785,7 +798,7 @@
                 <span class="level-item">题解</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">17</span>
+                <span class="level-item tag">18</span>
             </span>
         </a></li>
             </ul>
