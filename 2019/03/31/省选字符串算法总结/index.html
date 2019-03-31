@@ -3,18 +3,23 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-<title>标签: Hash - LiM-817&#39;s Blog</title>
+<title>省选字符串算法总结 - LiM-817&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="LiM-817&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/tags/Hash/index.html">
+    <meta name="description" content="众做周知，$\text{LiM}$字符串没学好。所以这里会用来整理一些知名字符串算法。">
+<meta name="keywords" content="KMP,AC自动机,manacher,trie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="省选字符串算法总结">
+<meta property="og:url" content="http://yoursite.com/2019/03/31/省选字符串算法总结/index.html">
 <meta property="og:site_name" content="LiM-817&#39;s Blog">
+<meta property="og:description" content="众做周知，$\text{LiM}$字符串没学好。所以这里会用来整理一些知名字符串算法。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-31T06:36:30.238Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LiM-817&#39;s Blog">
+<meta name="twitter:title" content="省选字符串算法总结">
+<meta name="twitter:description" content="众做周知，$\text{LiM}$字符串没学好。所以这里会用来整理一些知名字符串算法。">
 
 
 
@@ -86,7 +91,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
+                <img src="/favicon.ico" alt="省选字符串算法总结" height="28">
             
             </a>
         </div>
@@ -125,33 +130,22 @@
         <div class="container">
             <div class="columns">
                 <div class="column my-content is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">Hash</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    <div class="card">
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-09T23:10:49.000Z">2019-03-10</time>
+                <time class="level-item has-text-grey" datetime="2019-03-31T05:04:34.000Z">2019-03-31</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
+                <a class="has-link-grey -link" href="/categories/算法笔记/">算法笔记</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 659 个字)
+                    2 分钟 读完 (大约 307 个字)
                 </span>
                 
                 
@@ -160,21 +154,28 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/03/10/Baltic2004-Friends-题解/">[Baltic2004]Friends 题解</a>
+                省选字符串算法总结
             
         </h1>
         <div class="content">
-            <p>题意：对于一个字符串$s$,复制一遍之后得到$e$，在$e$的任何位置插入一个字符形成$u$。给定$u$，求字符串$s$.</p>
+            <p>众做周知，$\text{LiM}$字符串没学好。<br>所以这里会用来整理一些知名字符串算法。</p>
+<a id="more"></a>
+<hr>
+<h3 id="mathcal-KMP"><a href="#mathcal-KMP" class="headerlink" title="$\mathcal{KMP}$"></a>$\mathcal{KMP}$</h3><h3 id="text-Old-Link"><a href="#text-Old-Link" class="headerlink" title="$\text{Old Link}$"></a><a href="https://lim817.github.io/2019/03/15/KMP-exKMP%E8%AF%A6%E8%A7%A3/" target="_blank" rel="noopener">$\text{Old Link}$</a></h3><p>这里不写了…还有一堆$fail$数组的妙用。</p>
+<hr>
+<h3 id="mathcal-AC自动机"><a href="#mathcal-AC自动机" class="headerlink" title="$\mathcal{AC自动机}$"></a>$\mathcal{AC自动机}$</h3><p>在$\text{Trie}$上跑$\text{KMP}$.<br>建立$trie$图然后暴跳（<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment"> * @Author: Mingyu Li</span></span><br><span class="line"><span class="hljs-comment"> * @Date:   2019-03-31T13:59:13+08:00</span></span><br><span class="line"><span class="hljs-comment"> * @Last modified by:   Mingyu Li</span></span><br><span class="line"><span class="hljs-comment"> * @Last modified time: 2019-03-31T14:07:19+08:00</span></span><br><span class="line"><span class="hljs-comment"> */</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Go(i , x , y) for(register int i = x; i &lt;= y; i++)</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> God(i , y , x) for(register int i = y; i &gt;= x; i--)</span></span><br><span class="line"><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">500000</span> + <span class="hljs-number">5</span>;</span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">AC_automaton</span> &#123;</span></span><br><span class="line">  <span class="hljs-keyword">int</span> trie[N][<span class="hljs-number">26</span>] , val[N] , fail[N] , cnt;</span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *s)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> l = <span class="hljs-built_in">strlen</span>(s);</span><br><span class="line">    <span class="hljs-keyword">int</span> now = <span class="hljs-number">0</span>;</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; l; i++) &#123;</span><br><span class="line">      <span class="hljs-keyword">if</span>(trie[now][s[i] - <span class="hljs-string">'a'</span>] == <span class="hljs-number">0</span>)</span><br><span class="line">        trie[now][s[i] - <span class="hljs-string">'a'</span>] = ++cnt;</span><br><span class="line">      now = trie[now][s[i] - <span class="hljs-string">'a'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    ++val[now];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Build</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; q;</span><br><span class="line">    Go(i, <span class="hljs-number">0</span>, <span class="hljs-number">25</span>)</span><br><span class="line">      <span class="hljs-keyword">if</span>(trie[<span class="hljs-number">0</span>][i])</span><br><span class="line">        q.push(trie[<span class="hljs-number">0</span>][i]), fail[trie[<span class="hljs-number">0</span>][i]] = <span class="hljs-number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">while</span>(!q.empty()) &#123;</span><br><span class="line">      <span class="hljs-keyword">int</span> u = q.front(); q.pop();</span><br><span class="line">      Go(i, <span class="hljs-number">0</span>, <span class="hljs-number">25</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(trie[u][i]) fail[trie[u][i]] = trie[fail[u]][i], q.push(trie[u][i]);</span><br><span class="line">        <span class="hljs-keyword">else</span> trie[u][i] = trie[fail[u]][i];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Query</span><span class="hljs-params">(<span class="hljs-keyword">char</span>* t)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;</span><br><span class="line">    <span class="hljs-keyword">int</span> l = <span class="hljs-built_in">strlen</span>(t);</span><br><span class="line">    <span class="hljs-keyword">int</span> now = <span class="hljs-number">0</span>;</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; l; i++) &#123;</span><br><span class="line">      now = trie[now][t[i] - <span class="hljs-string">'a'</span>];</span><br><span class="line">      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> t = now; t &amp;&amp; ~val[t]; t = fail[t]) ans += val[t] , val[t] = <span class="hljs-number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> ans;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;AC;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">int</span> n;</span><br><span class="line"><span class="hljs-keyword">char</span> s[N&lt;&lt;<span class="hljs-number">1</span>];</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d"</span> , &amp;n);</span><br><span class="line">  Go(i, <span class="hljs-number">1</span>, n) &#123;</span><br><span class="line">    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%s"</span> , s);</span><br><span class="line">    AC.insert(s);</span><br><span class="line">  &#125;</span><br><span class="line">  AC.Build();</span><br><span class="line">  <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%s"</span> , s);</span><br><span class="line">  <span class="hljs-built_in">cout</span> &lt;&lt; AC.Query(s) &lt;&lt; <span class="hljs-built_in">endl</span>;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/10/Baltic2004-Friends-题解/#more">阅读更多</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/AC自动机/">AC自动机</a>, <a class="has-link-grey -link" href="/tags/KMP/">KMP</a>, <a class="has-link-grey -link" href="/tags/manacher/">manacher</a>, <a class="has-link-grey -link" href="/tags/trie/">trie</a>
                 </div>
             </div>
         </div>
+        
         
         
     </div>
@@ -184,7 +185,19 @@
 
 
 
-
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/30/DP水题练习/">
+                <span class="level-item">DP水题练习</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
 
 
 
@@ -334,7 +347,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
+                    <img src="/favicon.ico" alt="省选字符串算法总结" height="28">
                 
                 </a>
                 <p class="is-size-7">
