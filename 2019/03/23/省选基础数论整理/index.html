@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="LiM-817&#39;s Blog">
 <meta property="og:description" content="众所周知，$\text{LiM}$数学不好。这篇文章用于总结一堆数论算法。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-30T06:59:27.551Z">
+<meta property="og:updated_time" content="2019-03-30T22:10:51.349Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="省选基础数论整理">
 <meta name="twitter:description" content="众所周知，$\text{LiM}$数学不好。这篇文章用于总结一堆数论算法。">
@@ -189,12 +189,12 @@
 <script type="math/tex; mode=display">\varphi(n) = n - (n / p_1) - (n / p_2) - ...+ (n / (p1 \times p2)) + ...</script><script type="math/tex; mode=display">\varphi(n) = n(1 - p_1)(1 - p_2)...(1 - p_n)</script><p><del>（其实就是硬拆上面那个式子得到的）</del><br>然后就可以枚举质因子硬乘就可以了。</p>
 <figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">ll <span class="hljs-title">phi</span><span class="hljs-params">(ll n)</span> </span>&#123;</span><br><span class="line">    ll ans = n;</span><br><span class="line">    <span class="hljs-keyword">for</span>(ll i = <span class="hljs-number">2</span>; i * i &lt;= n; i++) &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(n % i == <span class="hljs-number">0</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">while</span>(n % i == <span class="hljs-number">0</span>) n /= i;</span><br><span class="line">            ans = ans / i * (i - <span class="hljs-number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">if</span>(n &gt; <span class="hljs-number">1</span>) ans = ans / n * (n - <span class="hljs-number">1</span>);</span><br><span class="line">    <span class="hljs-keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="text-Linear-Sieve"><a href="#text-Linear-Sieve" class="headerlink" title="$\text{Linear Sieve}$"></a>$\text{Linear Sieve}$</h4><p>考虑硬拆式子。<br>重温$\text{Euler Sieve}$的过程，就是找$n$的最小质因子$p_1$将其用$p_1 \times (n / p_1)$筛掉。<br>先设$n’ = n / p_1$，再分两种情况讨论：<br><strong>$①:n’$有$p_1$这一因子。意味着唯一分解中$k_1 &gt; 1$</strong><br>那么显然，$n’$有着$n$的所有质因子。所以</p>
-<script type="math/tex; mode=display">\begin{align}
+<script type="math/tex; mode=display">\begin{aligned}
 \varphi(n)&= n \prod\limits_{i = 1} ^ {n} \frac{p_i - 1}{p_i} \\
 &= p_1 \times n' \prod\limits_{i = 1} ^ {n} \frac{p_i - 1}{p_i} \\
 &= p_1 \times \varphi(n') \\
-\end{align}</script><p><strong>$②:n’$没有$p_1$这一因子。意味着唯一分解中$k_1 = 1$</strong></p>
-<script type="math/tex; mode=display">\begin{align} \varphi(n)&= n \prod_{i = 1} ^ {n} \frac{p_i - 1}{p_i} \\ &= p_1 \times n' \times \frac{p_1-1}{p_1} \prod\limits_{i = 2} ^ {n} \frac{p_i - 1}{p_i} \\ &= (p_1-1) \times \varphi(n') \\ \end{align}</script><p>（其实也证明了欧拉函数是积性函数）<br>愉快的筛就好了。注意任何积性函数都有$f(1) = 1$.<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Euler_Sieve</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  np[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>; phi[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;</span><br><span class="line">  Go(i , <span class="hljs-number">2</span> , x) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span>(!np[i]) prime[++cnt] = i , phi[i] = i - <span class="hljs-number">1</span>;</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= cnt &amp;&amp; i * prime[j] &lt;= x; j++) &#123;</span><br><span class="line">      np[i * prime[j]] = <span class="hljs-number">1</span>;</span><br><span class="line">      <span class="hljs-keyword">if</span>(i % prime[j])</span><br><span class="line">        phi[i * prime[j]] = phi[i] * (prime[j] - <span class="hljs-number">1</span>);</span><br><span class="line">      <span class="hljs-keyword">else</span>  &#123;</span><br><span class="line">        phi[i * prime[j]] = prime[j] * phi[i];</span><br><span class="line">        <span class="hljs-keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+\end{aligned}</script><p><strong>$②:n’$没有$p_1$这一因子。意味着唯一分解中$k_1 = 1$</strong></p>
+<script type="math/tex; mode=display">\begin{aligned} \varphi(n)&= n \prod_{i = 1} ^ {n} \frac{p_i - 1}{p_i} \\ &= p_1 \times n' \times \frac{p_1-1}{p_1} \prod\limits_{i = 2} ^ {n} \frac{p_i - 1}{p_i} \\ &= (p_1-1) \times \varphi(n') \\ \end{aligned}</script><p>（其实也证明了欧拉函数是积性函数）<br>愉快的筛就好了。注意任何积性函数都有$f(1) = 1$.<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Euler_Sieve</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  np[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>; phi[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;</span><br><span class="line">  Go(i , <span class="hljs-number">2</span> , x) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span>(!np[i]) prime[++cnt] = i , phi[i] = i - <span class="hljs-number">1</span>;</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= cnt &amp;&amp; i * prime[j] &lt;= x; j++) &#123;</span><br><span class="line">      np[i * prime[j]] = <span class="hljs-number">1</span>;</span><br><span class="line">      <span class="hljs-keyword">if</span>(i % prime[j])</span><br><span class="line">        phi[i * prime[j]] = phi[i] * (prime[j] - <span class="hljs-number">1</span>);</span><br><span class="line">      <span class="hljs-keyword">else</span>  &#123;</span><br><span class="line">        phi[i * prime[j]] = prime[j] * phi[i];</span><br><span class="line">        <span class="hljs-keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
         </div>
         
@@ -278,7 +278,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        25
+                        26
                     </p>
                 </div>
             </div>
@@ -298,7 +298,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        14
+                        15
                     </p>
                 </div>
             </div>
@@ -358,7 +358,7 @@
                 <span class="level-item">题解</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">18</span>
+                <span class="level-item tag">19</span>
             </span>
         </a></li>
             </ul>
