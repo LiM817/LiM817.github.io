@@ -3,27 +3,23 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-<title>KMP&amp;exKMP详解 - LiM-817&#39;s Blog</title>
+<title>[Project Euler #2]Fibonacci Numbers 题解 - LiM-817&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="终于补掉了KMP经久不衰的坑（雾来写一下吧w">
-<meta name="keywords" content="KMP,exKMP">
+    <meta name="description" content="一道很有意思的推式子题。">
+<meta name="keywords" content="数论,斐波那契数列">
 <meta property="og:type" content="article">
-<meta property="og:title" content="KMP&amp;exKMP详解">
-<meta property="og:url" content="http://yoursite.com/2019/03/15/KMP-exKMP详解/index.html">
+<meta property="og:title" content="[Project Euler #2]Fibonacci Numbers 题解">
+<meta property="og:url" content="http://yoursite.com/2019/05/16/Project-Euler-2-Fibonacci-Numbers-题解/index.html">
 <meta property="og:site_name" content="LiM-817&#39;s Blog">
-<meta property="og:description" content="终于补掉了KMP经久不衰的坑（雾来写一下吧w">
+<meta property="og:description" content="一道很有意思的推式子题。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://i.loli.net/2019/03/15/5c8b878d3c8d9.jpg">
-<meta property="og:image" content="https://i.loli.net/2019/03/15/5c8b90fd7aaeb.jpg">
-<meta property="og:image" content="https://i.loli.net/2019/03/15/5c8b9206f3fc0.jpg">
-<meta property="og:updated_time" content="2019-03-16T01:41:09.413Z">
+<meta property="og:updated_time" content="2019-05-16T12:29:42.299Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="KMP&amp;exKMP详解">
-<meta name="twitter:description" content="终于补掉了KMP经久不衰的坑（雾来写一下吧w">
-<meta name="twitter:image" content="https://i.loli.net/2019/03/15/5c8b878d3c8d9.jpg">
+<meta name="twitter:title" content="[Project Euler #2]Fibonacci Numbers 题解">
+<meta name="twitter:description" content="一道很有意思的推式子题。">
 
 
 
@@ -95,7 +91,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/favicon.ico" alt="KMP&amp;exKMP详解" height="28">
+                <img src="/favicon.ico" alt="[Project Euler #2]Fibonacci Numbers 题解" height="28">
             
             </a>
         </div>
@@ -139,17 +135,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-15T10:02:05.000Z">2019-03-15</time>
+                <time class="level-item has-text-grey" datetime="2019-05-16T12:10:31.000Z">2019-05-16</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/算法笔记/">算法笔记</a>
+                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    5 分钟 读完 (大约 767 个字)
+                    2 分钟 读完 (大约 290 个字)
                 </span>
                 
                 
@@ -158,34 +154,35 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                KMP&amp;exKMP详解
+                [Project Euler #2]Fibonacci Numbers 题解
             
         </h1>
         <div class="content">
-            <p>终于补掉了KMP经久不衰的坑（雾<br>来写一下吧w</p>
+            <p>一道很有意思的推式子题。</p>
 <a id="more"></a>
-<p>KMP可以用来解决一类字符串匹配问题。例如b串在a串中出现的次数。<br>那么具体是怎么实现的呢？通过“大跳”——next数组来实现。<br>这里先说一下next的定义：<br><strong>$next[i]$表示$b[1…i]$中最长的相同前后缀（border）的长度。特别的，$next[1]=0$</strong>.<br>举个例子！</p>
-<p>$b : “ABA”$</p>
-<p>那么拿$next[3]$举例：<br>$b[1…3]$中最长相同的前后缀为$A$，长度为$1$，故$next[3]=1$.</p>
-<p>怎么求出$next$数组呢？<br><del>我会哈希！</del><br>显然，哈希也可以直接解决字符串匹配问题。那么既然是个算法，就一定有比$hash$巧妙的办法。</p>
-<p>考虑把$next$数组按照类似于$dp$的方式递推转移（见下图）。</p>
-<p><img src="https://i.loli.net/2019/03/15/5c8b878d3c8d9.jpg" alt></p>
-<p>我们发现，<strong>计算$next[i]$本质上就是找到最长的两段红色序列，使得红色序列相等且下一个黄色也相等</strong>。</p>
-<p>通俗的说，就是找一段$b[1…x]$，使得$b[1…x] = b[(x-1)-x+1 … (x-1)]$的同时还满足$b[x+1] = b[i]$.</p>
-<p>然后有个很显然的东西：一个串的border的border一定是原串的border.</p>
-<p>所以就往回一直跳就完事了。</p>
-<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fail[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;</span><br><span class="line"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>;i &lt;= lb;i++)&#123;</span><br><span class="line">  <span class="hljs-keyword">int</span> j = fail[i - <span class="hljs-number">1</span>];</span><br><span class="line">  <span class="hljs-keyword">while</span>(j &amp;&amp; b[j + <span class="hljs-number">1</span>] != b[i]) j = fail[j];</span><br><span class="line">  <span class="hljs-keyword">if</span>(b[j + <span class="hljs-number">1</span>] == b[i]) fail[i] = j + <span class="hljs-number">1</span>;</span><br><span class="line">  <span class="hljs-keyword">else</span> fail[i] = <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那么如何用next数组优化找字符串呢？</p>
-<p>考虑用一个指针$j$，指向目前匹配完了$b[j]$.<br>再次画图：</p>
-<p><img src="https://i.loli.net/2019/03/15/5c8b90fd7aaeb.jpg" alt></p>
-<p>然后我发现我们通过固定i挪动j的位置，就可以合理匹配！</p>
-<p>具体的，就是保证b串不回滚。由于我们已经匹配完了j个，那么跳个border一定还能匹配，就像这样：</p>
-<p><img src="https://i.loli.net/2019/03/15/5c8b9206f3fc0.jpg" alt></p>
-<p>不停的跳，直到匹配或者确定不能匹配为止。</p>
-<p>上代码：<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span> , j = <span class="hljs-number">0</span>;i &lt;= la;i++)&#123;</span><br><span class="line">  <span class="hljs-keyword">while</span>(j &amp;&amp; b[j + <span class="hljs-number">1</span>] != a[i]) j = fail[j];</span><br><span class="line">  <span class="hljs-keyword">if</span>(b[j + <span class="hljs-number">1</span>] == a[i])&#123;</span><br><span class="line">      j++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-keyword">if</span>(j == lb)&#123;</span><br><span class="line">      ++res;</span><br><span class="line">      j = fail[j]; <span class="hljs-comment">// mark1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>特别注意，有些题里找子串可以重复，有些题不能。如果不能的话，就把$mark1$处改成$j=0$. （重新开始）</p>
-<p>那么KMP板子就写完了。附上luogu模板题代码：<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="hljs-comment">//#include &lt;algorithm&gt;</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> pb push_back</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">1000000</span> + <span class="hljs-number">10</span>;</span><br><span class="line"><span class="hljs-keyword">char</span> a[MAXN] , b[MAXN];</span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> fail[MAXN];</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%s%s"</span> , (a + <span class="hljs-number">1</span>) , (b + <span class="hljs-number">1</span>));</span><br><span class="line">    <span class="hljs-keyword">int</span> la = <span class="hljs-built_in">strlen</span>(a + <span class="hljs-number">1</span>);</span><br><span class="line">    <span class="hljs-keyword">int</span> lb = <span class="hljs-built_in">strlen</span>(b + <span class="hljs-number">1</span>);</span><br><span class="line"></span><br><span class="line">    fail[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>;i &lt;= lb;i++)&#123;</span><br><span class="line">        <span class="hljs-keyword">int</span> j = fail[i - <span class="hljs-number">1</span>];</span><br><span class="line">        <span class="hljs-keyword">while</span>(j &amp;&amp; b[j + <span class="hljs-number">1</span>] != b[i]) j = fail[j];</span><br><span class="line">        <span class="hljs-keyword">if</span>(b[j + <span class="hljs-number">1</span>] == b[i]) fail[i] = j + <span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-keyword">else</span> fail[i] = <span class="hljs-number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span> , j = <span class="hljs-number">0</span>;i &lt;= la;i++)&#123;</span><br><span class="line">        <span class="hljs-keyword">while</span>(j &amp;&amp; b[j + <span class="hljs-number">1</span>] != a[i]) j = fail[j];</span><br><span class="line">        <span class="hljs-keyword">if</span>(b[j + <span class="hljs-number">1</span>] == a[i])&#123;</span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span>(j == lb)&#123;</span><br><span class="line">            <span class="hljs-built_in">cout</span> &lt;&lt; i - lb + <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-string">"\n"</span>;</span><br><span class="line">            j = fail[j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>;i &lt;= lb;i++) <span class="hljs-built_in">cout</span> &lt;&lt; fail[i] &lt;&lt; <span class="hljs-string">" "</span>;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>exkmp好像可以直接用哈希+二分水过去…不学了（雾</p>
+<p>不难发现$Fibonacci$数列是</p>
+<script type="math/tex; mode=display">odd,odd,even,odd,odd,even...</script><p>也就是说$F(3),F(6),F(9)…$都是偶数。那么我们只需要摸索出一个$F(n)$与$F(n - 3)$和$F(n - 6)$的关系即可。</p>
+<p>首先我们先通过一步简单的推导推出一个东西：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+F(n)&=F(n-1)+F(n-2)\\
+    &=F(n-2)+F(n-3)+F(n-2)\\
+    &=2F(n - 2) + F(n - 3)\\
+\end{aligned}</script><p>然后我们来继续硬拆：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+F(n)&=2F(n - 2) + F(n - 3)\\
+    &=2(F(n - 3) + F(n - 4)) + F(n - 3)\\
+    &=3F(n - 3) + 2F(n - 4)\\
+    &=3F(n - 3) + 2(F(n - 5) + F(n - 6))\\
+    &=3F(n - 3) + 2F(n - 5) + 2F(n - 6)\\
+\end{aligned}</script><p>然后我们发现，因为一开始我们推出来了个部分结论，于是</p>
+<script type="math/tex; mode=display">F(n - 3) = 2F(n - 5) + F(n - 6)</script><p>变形之后得到</p>
+<script type="math/tex; mode=display">2F(n - 5) = F(n - 3) - F(n - 6)</script><p>代入第二部分计算：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+F(n)&=3F(n - 3) + 2F(n - 5) + 2F(n - 6)\\
+    &=3F(n - 3) + F(n - 3) - F(n - 6) + 2F(n - 6)\\
+    &=4F(n - 3) + F(n - 6)\\
+\end{aligned}</script><p>于是就愉快的做完了。</p>
+<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> dbg(x) std::cerr &lt;&lt; #x &lt;&lt; <span class="hljs-meta-string">" = "</span> &lt;&lt; x &lt;&lt; <span class="hljs-meta-string">"\n"</span></span></span><br><span class="line"><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;</span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;</span><br><span class="line">ll t, n;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%lld"</span>, &amp;t);</span><br><span class="line">	<span class="hljs-keyword">while</span>(t--) &#123;</span><br><span class="line">		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%lld"</span>, &amp;n);</span><br><span class="line">		ll a = <span class="hljs-number">2</span>, b = <span class="hljs-number">8</span>, nowsum = <span class="hljs-number">10</span>;</span><br><span class="line">		<span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>) &#123;</span><br><span class="line">			<span class="hljs-keyword">if</span>(<span class="hljs-number">4</span> * b + a &gt; n) &#123;</span><br><span class="line">				<span class="hljs-built_in">cout</span> &lt;&lt; nowsum &lt;&lt; <span class="hljs-built_in">endl</span>;</span><br><span class="line">				<span class="hljs-keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			nowsum += <span class="hljs-number">4</span> * b + a;</span><br><span class="line">			ll cp = b; b = <span class="hljs-number">4</span> * b + a; a = cp;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -193,7 +190,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/KMP/">KMP</a>, <a class="has-link-grey -link" href="/tags/exKMP/">exKMP</a>
+                    <a class="has-link-grey -link" href="/tags/数论/">数论</a>, <a class="has-link-grey -link" href="/tags/斐波那契数列/">斐波那契数列</a>
                 </div>
             </div>
         </div>
@@ -210,17 +207,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/03/16/POI2009-Radio-Transmission-题解/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">[POI2009]Radio Transmission 题解</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/14/HDU2089-不要62-题解/">
-                <span class="level-item">[HDU2089]不要62 题解</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/16/PKUPC2019E-Coprime-题解/">
+                <span class="level-item">[PKUPC2019E]Coprime 题解</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -405,7 +395,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/favicon.ico" alt="KMP&amp;exKMP详解" height="28">
+                    <img src="/favicon.ico" alt="[Project Euler #2]Fibonacci Numbers 题解" height="28">
                 
                 </a>
                 <p class="is-size-7">
