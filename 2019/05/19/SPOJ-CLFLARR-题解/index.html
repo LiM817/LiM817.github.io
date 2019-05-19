@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="LiM-817&#39;s Blog">
 <meta property="og:description" content="并查集小妙用">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-18T21:56:56.747Z">
+<meta property="og:updated_time" content="2019-05-18T22:11:50.759Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SPOJ-CLFLARR 题解">
 <meta name="twitter:description" content="并查集小妙用">
@@ -145,7 +145,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 分钟 读完 (大约 220 个字)
+                    2 分钟 读完 (大约 320 个字)
                 </span>
                 
                 
@@ -160,6 +160,8 @@
         <div class="content">
             <p>并查集小妙用<br><a id="more"></a><br>把操作倒着做，每次操作只需要考虑没有颜色的点即可<br>维护$f[i]$为[i,n]中最前面的没有颜色的点的编号。只需要疯狂从$find(l)$向后跳为止，同时修改$f[i]=i+1$<br>复杂度均摊一下，每个点最多被操控一次，所以复杂度是$\Theta(nlogn)$的。</p>
 <figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> dbg(x) std::cerr &lt;&lt; #x &lt;&lt; <span class="hljs-meta-string">" = "</span> &lt;&lt; x &lt;&lt; <span class="hljs-meta-string">"\n"</span></span></span><br><span class="line"><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;</span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">200000</span> + <span class="hljs-number">10</span>;</span><br><span class="line"><span class="hljs-keyword">int</span> n, q, f[N], l[N], r[N], c[N], color[N];</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">find</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">return</span> x == f[x] ? f[x] : f[x] = find(f[x]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d%d"</span>, &amp;n, &amp;q);</span><br><span class="line">	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n + <span class="hljs-number">1</span>; i++) f[i] = i;</span><br><span class="line">	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= q; i++) <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d%d%d"</span>, &amp;l[i], &amp;r[i], &amp;c[i]);</span><br><span class="line">	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = q; i &gt;= <span class="hljs-number">1</span>; i--) &#123;</span><br><span class="line">		<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = find(l[i]); j &lt;= r[i]; j = find(j)) &#123;</span><br><span class="line">			color[j] = c[i];</span><br><span class="line">			f[j] = j + <span class="hljs-number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d\n"</span>, color[i]);</span><br><span class="line">	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另附一些并查集小妙用：<br>RMQ:离线，将$[l,r]$push进一个以r为下标的<code>vector</code>里。依次加入每个数，维护$f[i]$为在i后面第一个比i小的数的下标，显然可以贪心的跳$f$找到最小值。</p>
+<p>$f$可以单调栈维护。对于每个$l$，答案就是目前的$a[find(l)]$.</p>
 
         </div>
         
