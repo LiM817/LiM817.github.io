@@ -3,23 +3,18 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-<title>[Project Euler #2]Fibonacci Numbers 题解 - LiM-817&#39;s Blog</title>
+<title>标签: 动态规划 - LiM-817&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="一道很有意思的推式子题。">
-<meta name="keywords" content="数论,斐波那契数列">
-<meta property="og:type" content="article">
-<meta property="og:title" content="[Project Euler #2]Fibonacci Numbers 题解">
-<meta property="og:url" content="http://yoursite.com/2019/05/16/Project-Euler-2-Fibonacci-Numbers-题解/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="LiM-817&#39;s Blog">
+<meta property="og:url" content="http://yoursite.com/tags/动态规划/index.html">
 <meta property="og:site_name" content="LiM-817&#39;s Blog">
-<meta property="og:description" content="一道很有意思的推式子题。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-16T12:29:42.299Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[Project Euler #2]Fibonacci Numbers 题解">
-<meta name="twitter:description" content="一道很有意思的推式子题。">
+<meta name="twitter:title" content="LiM-817&#39;s Blog">
 
 
 
@@ -91,7 +86,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/favicon.ico" alt="[Project Euler #2]Fibonacci Numbers 题解" height="28">
+                <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
             
             </a>
         </div>
@@ -130,12 +125,23 @@
         <div class="container">
             <div class="columns">
                 <div class="column my-content is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    <div class="card-content">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/tags">标签</a></li>
+            <li class="is-active"><a href="#" aria-current="page">动态规划</a></li>
+        </ul>
+        </nav>
+    </div>
+</div>
+
+    <div class="card">
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-16T12:10:31.000Z">2019-05-16</time>
+                <time class="level-item has-text-grey" datetime="2019-05-26T00:57:00.000Z">2019-05-26</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/题解/">题解</a>
@@ -145,7 +151,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    2 分钟 读完 (大约 290 个字)
+                    4 分钟 读完 (大约 652 个字)
                 </span>
                 
                 
@@ -154,49 +160,23 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                [Project Euler #2]Fibonacci Numbers 题解
+                <a class="has-link-black-ter" href="/2019/05/26/计蒜之道-初赛第一场-题解/">计蒜之道 初赛第一场 题解</a>
             
         </h1>
         <div class="content">
-            <p>一道很有意思的推式子题。</p>
-<a id="more"></a>
-<p>不难发现$Fibonacci$数列是</p>
-<script type="math/tex; mode=display">odd,odd,even,odd,odd,even...</script><p>也就是说$F(3),F(6),F(9)…$都是偶数。那么我们只需要摸索出一个$F(n)$与$F(n - 3)$和$F(n - 6)$的关系即可。</p>
-<p>首先我们先通过一步简单的推导推出一个东西：</p>
-<script type="math/tex; mode=display">\begin{aligned}
-F(n)&=F(n-1)+F(n-2)\\
-    &=F(n-2)+F(n-3)+F(n-2)\\
-    &=2F(n - 2) + F(n - 3)\\
-\end{aligned}</script><p>然后我们来继续硬拆：</p>
-<script type="math/tex; mode=display">\begin{aligned}
-F(n)&=2F(n - 2) + F(n - 3)\\
-    &=2(F(n - 3) + F(n - 4)) + F(n - 3)\\
-    &=3F(n - 3) + 2F(n - 4)\\
-    &=3F(n - 3) + 2(F(n - 5) + F(n - 6))\\
-    &=3F(n - 3) + 2F(n - 5) + 2F(n - 6)\\
-\end{aligned}</script><p>然后我们发现，因为一开始我们推出来了个部分结论，于是</p>
-<script type="math/tex; mode=display">F(n - 3) = 2F(n - 5) + F(n - 6)</script><p>变形之后得到</p>
-<script type="math/tex; mode=display">2F(n - 5) = F(n - 3) - F(n - 6)</script><p>代入第二部分计算：</p>
-<script type="math/tex; mode=display">\begin{aligned}
-F(n)&=3F(n - 3) + 2F(n - 5) + 2F(n - 6)\\
-    &=3F(n - 3) + F(n - 3) - F(n - 6) + 2F(n - 6)\\
-    &=4F(n - 3) + F(n - 6)\\
-\end{aligned}</script><p>于是就愉快的做完了。</p>
-<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> dbg(x) std::cerr &lt;&lt; #x &lt;&lt; <span class="hljs-meta-string">" = "</span> &lt;&lt; x &lt;&lt; <span class="hljs-meta-string">"\n"</span></span></span><br><span class="line"><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;</span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;</span><br><span class="line">ll t, n;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%lld"</span>, &amp;t);</span><br><span class="line">	<span class="hljs-keyword">while</span>(t--) &#123;</span><br><span class="line">		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%lld"</span>, &amp;n);</span><br><span class="line">		ll a = <span class="hljs-number">2</span>, b = <span class="hljs-number">8</span>, nowsum = <span class="hljs-number">10</span>;</span><br><span class="line">		<span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>) &#123;</span><br><span class="line">			<span class="hljs-keyword">if</span>(<span class="hljs-number">4</span> * b + a &gt; n) &#123;</span><br><span class="line">				<span class="hljs-built_in">cout</span> &lt;&lt; nowsum &lt;&lt; <span class="hljs-built_in">endl</span>;</span><br><span class="line">				<span class="hljs-keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			nowsum += <span class="hljs-number">4</span> * b + a;</span><br><span class="line">			ll cp = b; b = <span class="hljs-number">4</span> * b + a; a = cp;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+            <p>手速场才苟到$rank\ 63$，我好菜啊…</p>
         </div>
         
-        <div class="level is-size-7 is-uppercase">
+        
+        <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/数论/">数论</a>, <a class="has-link-grey -link" href="/tags/斐波那契数列/">斐波那契数列</a>
+                <a class="button is-size-7 is-light" href="/2019/05/26/计蒜之道-初赛第一场-题解/#more">阅读更多</a>
                 </div>
             </div>
         </div>
         
         
-        
     </div>
 </div>
 
@@ -204,49 +184,9 @@ F(n)&=3F(n - 3) + 2F(n - 5) + 2F(n - 6)\\
 
 
 
-<div class="card card-transparent">
-    <div class="level post-navigation is-flex-wrap is-mobile">
-        
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/19/SPOJ-CLFLARR-题解/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">SPOJ-CLFLARR 题解</span>
-            </a>
-        </div>
-        
-        
-        <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/16/PKUPC2019E-Coprime-题解/">
-                <span class="level-item">[PKUPC2019E]Coprime 题解</span>
-                <i class="level-item fas fa-chevron-right"></i>
-            </a>
-        </div>
-        
-    </div>
-</div>
 
 
 
-<div class="card">
-    <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">评论</h3>
-        
-<div id="valine-thread" class="content"></div>
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
-<script>
-    new Valine({
-        el: '#valine-thread' ,
-        notify: false,
-        verify: false,
-        app_id: 'gfIiDDlTQmabAVoPrQXdbvzF-gzGzoHsz',
-        app_key: 'XEg3KI89xouG0qOxozqCieqj',
-        placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!'
-    });
-</script>
-
-    </div>
-</div>
 
 </div>
                 
@@ -402,7 +342,7 @@ F(n)&=3F(n - 3) + 2F(n - 5) + 2F(n - 6)\\
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/favicon.ico" alt="[Project Euler #2]Fibonacci Numbers 题解" height="28">
+                    <img src="/favicon.ico" alt="LiM-817&#39;s Blog" height="28">
                 
                 </a>
                 <p class="is-size-7">
