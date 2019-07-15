@@ -131,6 +131,59 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-04-14T13:45:10.000Z">2019-04-14</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/算法笔记/">算法笔记</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 335 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/04/14/常见积性函数线性筛/">常见积性函数线性筛</a>
+            
+        </h1>
+        <div class="content">
+            <p>$\mu$函数<br>貌似根据定义做就可以。<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">calmu</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    np[<span class="hljs-number">1</span>] = <span class="hljs-literal">true</span>; mu[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(!np[i]) prime[++pos] = i , mu[i] = <span class="hljs-number">-1</span>;</span><br><span class="line">        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= pos &amp;&amp; i * prime[j] &lt;= n; j++) &#123;</span><br><span class="line">            np[i * prime[j]] = <span class="hljs-number">1</span>;</span><br><span class="line">            <span class="hljs-keyword">if</span>(i % prime[j]) &#123;</span><br><span class="line">                mu[i * prime[j]] = -mu[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                mu[i * prime[j]] = <span class="hljs-number">0</span>;</span><br><span class="line">                <span class="hljs-keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>$\varphi$函数<br>考虑硬拆式子。<br>重温$\text{Euler Sieve}$的过程，就是找$n$的最小质因子$p_1$将其用$p_1 \times (n / p_1)$筛掉。<br>先设$n’ = n / p_1$，再分两种情况讨论：<br><strong>$①:n’$有$p_1$这一因子。意味着唯一分解中$k_1 &gt; 1$</strong><br>那么显然，$n’$有着$n$的所有质因子。所以</p>
+<script type="math/tex; mode=display">\begin{aligned}
+\varphi(n)&= n \prod\limits_{i = 1} ^ {k} \frac{p_i - 1}{p_i} \\
+&= p_1 \times n' \prod\limits_{i = 1} ^ {k} \frac{p_i - 1}{p_i} \\
+&= p_1 \times \varphi(n') \\
+\end{aligned}</script><p><strong>$②:n’$没有$p_1$这一因子。意味着唯一分解中$k_1 = 1$</strong></p>
+<script type="math/tex; mode=display">\begin{aligned} \varphi(n)&= n \prod_{i = 1} ^ {k} \frac{p_i - 1}{p_i} \\ &= p_1 \times n' \times \frac{p_1-1}{p_1} \prod\limits_{i = 2} ^ {k} \frac{p_i - 1}{p_i} \\ &= (p_1-1) \times \varphi(n') \\ \end{aligned}</script><p>（其实也证明了欧拉函数是积性函数）<br>愉快的筛就好了。注意任何积性函数都有$f(1) = 1$.<br><figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Euler_Sieve</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  np[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>; phi[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;</span><br><span class="line">  Go(i , <span class="hljs-number">2</span> , x) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span>(!np[i]) prime[++cnt] = i , phi[i] = i - <span class="hljs-number">1</span>;</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= cnt &amp;&amp; i * prime[j] &lt;= x; j++) &#123;</span><br><span class="line">      np[i * prime[j]] = <span class="hljs-number">1</span>;</span><br><span class="line">      <span class="hljs-keyword">if</span>(i % prime[j])</span><br><span class="line">        phi[i * prime[j]] = phi[i] * (prime[j] - <span class="hljs-number">1</span>);</span><br><span class="line">      <span class="hljs-keyword">else</span>  &#123;</span><br><span class="line">        phi[i * prime[j]] = prime[j] * phi[i];</span><br><span class="line">        <span class="hljs-keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-04-12T23:15:29.000Z">2019-04-13</time>
                 
                 <div class="level-item">
@@ -603,59 +656,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-18T13:45:41.000Z">2019-03-18</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/题解/">题解</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 分钟 读完 (大约 580 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/18/USACO10HOL-DOtP-题解/">[USACO10HOL]DOtP 题解</a>
-            
-        </h1>
-        <div class="content">
-            <p>第一道应用高斯消元来解$dp$数组的题，感觉很妙。<br></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/18/USACO10HOL-DOtP-题解/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -720,7 +720,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        41
+                        42
                     </p>
                 </div>
             </div>
@@ -740,7 +740,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        29
+                        30
                     </p>
                 </div>
             </div>
@@ -808,7 +808,7 @@
                 <span class="level-item">题解</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">31</span>
+                <span class="level-item tag">32</span>
             </span>
         </a></li>
             </ul>
